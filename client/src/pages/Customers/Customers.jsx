@@ -10,7 +10,7 @@ import {
   updateCustomer,
   deleteCustomer,
   getCustomerStats,
-} from "../../services/customerService";
+} from "../../services/CustomerService"
 import "./Customers.css";
 
 const emptyCustomer = {
