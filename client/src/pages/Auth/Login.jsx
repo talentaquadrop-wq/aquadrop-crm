@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import api from "../../services/api";
 import { Link, useNavigate } from "react-router-dom";
 import {
   FaEnvelope,
@@ -10,7 +10,6 @@ import {
 import "./Login.css";
 
 // Vite Environment Variable Support
-const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 const ROLE_ROUTES = {
   Admin: "/dashboard",
@@ -38,12 +37,10 @@ const Login = () => {
 
     try {
       setLoading(true);
-
-      const res = await axios.post(`${API_BASE_URL}/api/auth/login`, {
-        login: loginCredential,
-        password: passwordCredential,
-      });
-
+const res = await api.post("/auth/login", {
+  login: loginCredential,
+  password: passwordCredential,
+});
       const { token, user } = res.data;
 
       localStorage.setItem("token", token);

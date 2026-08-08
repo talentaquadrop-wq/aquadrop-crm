@@ -1,27 +1,10 @@
-import axios from "axios";
-
-const API = axios.create({
-  baseURL: "http://localhost:5000/api",
-});
-
-// ===============================
-// Attach JWT Token Automatically
-// ===============================
-API.interceptors.request.use((config) => {
-  const token = localStorage.getItem("token");
-
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-
-  return config;
-});
+import api from "./api";
 
 // ===============================
 // GET ALL EMPLOYEES
 // ===============================
 export const getEmployees = async () => {
-  const { data } = await API.get("/employees");
+  const { data } = await api.get("/employees");
   return data;
 };
 
@@ -29,7 +12,7 @@ export const getEmployees = async () => {
 // GET EXECUTIVES
 // ===============================
 export const getExecutives = async () => {
-  const { data } = await API.get("/employees/executives");
+  const { data } = await api.get("/employees/executives");
   return data;
 };
 
@@ -37,7 +20,7 @@ export const getExecutives = async () => {
 // CREATE EMPLOYEE
 // ===============================
 export const createEmployee = async (employee) => {
-  const { data } = await API.post("/employees", employee);
+  const { data } = await api.post("/employees", employee);
   return data;
 };
 
@@ -45,7 +28,10 @@ export const createEmployee = async (employee) => {
 // UPDATE EMPLOYEE
 // ===============================
 export const updateEmployee = async (id, employee) => {
-  const { data } = await API.put(`/employees/${id}`, employee);
+  const { data } = await api.put(
+    `/employees/${id}`,
+    employee
+  );
   return data;
 };
 
@@ -53,7 +39,9 @@ export const updateEmployee = async (id, employee) => {
 // DELETE EMPLOYEE
 // ===============================
 export const deleteEmployee = async (id) => {
-  const { data } = await API.delete(`/employees/${id}`);
+  const { data } = await api.delete(
+    `/employees/${id}`
+  );
   return data;
 };
 
@@ -61,7 +49,9 @@ export const deleteEmployee = async (id) => {
 // ACTIVATE / DEACTIVATE
 // ===============================
 export const toggleEmployeeStatus = async (id) => {
-  const { data } = await API.patch(`/employees/${id}/status`);
+  const { data } = await api.patch(
+    `/employees/${id}/status`
+  );
   return data;
 };
 
@@ -72,7 +62,7 @@ export const resetEmployeePassword = async (
   id,
   newPassword
 ) => {
-  const { data } = await API.patch(
+  const { data } = await api.patch(
     `/employees/${id}/reset-password`,
     {
       newPassword,

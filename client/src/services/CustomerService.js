@@ -1,58 +1,41 @@
-import axios from "axios";
-
-const API_URL = "http://localhost:5000/api/customers";
+import api from "./api";
 
 // ==============================
 // Get All Customers
 // ==============================
-
 export const getCustomers = async () => {
-  const response = await axios.get(API_URL);
+  const response = await api.get("/customers");
   return response.data;
 };
 
 // ==============================
 // Create Customer
 // ==============================
-
 export const createCustomer = async (customerData) => {
-  const response = await axios.post(API_URL, customerData);
+  const response = await api.post("/customers", customerData);
   return response.data;
 };
 
 // ==============================
 // Update Customer
 // ==============================
-
 export const updateCustomer = async (id, customerData) => {
-  const response = await axios.put(
-    `${API_URL}/${id}`,
-    customerData
-  );
-
+  const response = await api.put(`/customers/${id}`, customerData);
   return response.data;
 };
 
 // ==============================
 // Delete Customer
 // ==============================
-
 export const deleteCustomer = async (id) => {
-  const response = await axios.delete(
-    `${API_URL}/${id}`
-  );
-
+  const response = await api.delete(`/customers/${id}`);
   return response.data;
 };
 
 // ==============================
 // Customer Dashboard Stats
 // ==============================
-
 export const getCustomerStats = async () => {
-  const response = await axios.get(
-    `${API_URL}/stats`
-  );
-
+  const response = await api.get("/customers/stats");
   return response.data;
 };

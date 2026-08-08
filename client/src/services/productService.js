@@ -1,12 +1,10 @@
-import axios from "axios";
-
-const API_URL = "http://localhost:5000/api/products";
+import api from "./api";
 
 // ===============================
 // Get All Products
 // ===============================
 export const getProducts = async () => {
-  const response = await axios.get(API_URL);
+  const response = await api.get("/products");
   return response;
 };
 
@@ -14,7 +12,7 @@ export const getProducts = async () => {
 // Get Single Product
 // ===============================
 export const getProduct = async (id) => {
-  const response = await axios.get(`${API_URL}/${id}`);
+  const response = await api.get(`/products/${id}`);
   return response;
 };
 
@@ -22,7 +20,10 @@ export const getProduct = async (id) => {
 // Create Product
 // ===============================
 export const createProduct = async (productData) => {
-  const response = await axios.post(API_URL, productData);
+  const response = await api.post(
+    "/products",
+    productData
+  );
   return response;
 };
 
@@ -30,8 +31,8 @@ export const createProduct = async (productData) => {
 // Update Product
 // ===============================
 export const updateProduct = async (id, productData) => {
-  const response = await axios.put(
-    `${API_URL}/${id}`,
+  const response = await api.put(
+    `/products/${id}`,
     productData
   );
   return response;
@@ -41,6 +42,8 @@ export const updateProduct = async (id, productData) => {
 // Delete Product
 // ===============================
 export const deleteProduct = async (id) => {
-  const response = await axios.delete(`${API_URL}/${id}`);
+  const response = await api.delete(
+    `/products/${id}`
+  );
   return response;
 };

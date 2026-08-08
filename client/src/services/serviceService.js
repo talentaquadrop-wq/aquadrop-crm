@@ -1,12 +1,10 @@
-import axios from "axios";
-
-const API_URL = "http://localhost:5000/api/services";
+import api from "./api";
 
 // ===============================
 // Get All Services
 // ===============================
 export const getServices = async () => {
-  const response = await axios.get(API_URL);
+  const response = await api.get("/services");
   return response;
 };
 
@@ -14,7 +12,7 @@ export const getServices = async () => {
 // Get Single Service
 // ===============================
 export const getService = async (id) => {
-  const response = await axios.get(`${API_URL}/${id}`);
+  const response = await api.get(`/services/${id}`);
   return response;
 };
 
@@ -22,7 +20,10 @@ export const getService = async (id) => {
 // Create Service
 // ===============================
 export const createService = async (serviceData) => {
-  const response = await axios.post(API_URL, serviceData);
+  const response = await api.post(
+    "/services",
+    serviceData
+  );
   return response;
 };
 
@@ -30,11 +31,10 @@ export const createService = async (serviceData) => {
 // Update Service
 // ===============================
 export const updateService = async (id, serviceData) => {
-  const response = await axios.put(
-    `${API_URL}/${id}`,
+  const response = await api.put(
+    `/services/${id}`,
     serviceData
   );
-
   return response;
 };
 
@@ -42,6 +42,8 @@ export const updateService = async (id, serviceData) => {
 // Delete Service
 // ===============================
 export const deleteService = async (id) => {
-  const response = await axios.delete(`${API_URL}/${id}`);
+  const response = await api.delete(
+    `/services/${id}`
+  );
   return response;
 };

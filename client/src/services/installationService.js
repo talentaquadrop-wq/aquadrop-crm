@@ -1,12 +1,10 @@
-import axios from "axios";
-
-const API_URL = "http://localhost:5000/api/installations";
+import api from "./api";
 
 // ===============================
 // Get All Installations
 // ===============================
 export const getInstallations = async () => {
-  const response = await axios.get(API_URL);
+  const response = await api.get("/installations");
   return response;
 };
 
@@ -14,7 +12,7 @@ export const getInstallations = async () => {
 // Get Single Installation
 // ===============================
 export const getInstallation = async (id) => {
-  const response = await axios.get(`${API_URL}/${id}`);
+  const response = await api.get(`/installations/${id}`);
   return response;
 };
 
@@ -22,7 +20,10 @@ export const getInstallation = async (id) => {
 // Create Installation
 // ===============================
 export const createInstallation = async (installationData) => {
-  const response = await axios.post(API_URL, installationData);
+  const response = await api.post(
+    "/installations",
+    installationData
+  );
   return response;
 };
 
@@ -30,8 +31,8 @@ export const createInstallation = async (installationData) => {
 // Update Installation
 // ===============================
 export const updateInstallation = async (id, installationData) => {
-  const response = await axios.put(
-    `${API_URL}/${id}`,
+  const response = await api.put(
+    `/installations/${id}`,
     installationData
   );
   return response;
@@ -41,6 +42,8 @@ export const updateInstallation = async (id, installationData) => {
 // Delete Installation
 // ===============================
 export const deleteInstallation = async (id) => {
-  const response = await axios.delete(`${API_URL}/${id}`);
+  const response = await api.delete(
+    `/installations/${id}`
+  );
   return response;
 };

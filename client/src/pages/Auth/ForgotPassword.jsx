@@ -1,6 +1,6 @@
 import { useState } from "react";
+import api from "../../services/api";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
@@ -14,8 +14,8 @@ const ForgotPassword = () => {
     try {
       setLoading(true);
 
-      const res = await axios.post(
-        "http://localhost:5000/api/auth/forgot-password",
+      const res = await api.post(
+        "/auth/forgot-password",
         { email }
       );
 
@@ -27,7 +27,8 @@ const ForgotPassword = () => {
 
     } catch (err) {
       alert(
-        err.response?.data?.message || "Something went wrong"
+        err.response?.data?.message ||
+          "Something went wrong"
       );
     } finally {
       setLoading(false);
@@ -35,10 +36,10 @@ const ForgotPassword = () => {
   };
 
   return (
-    <div className="forgot-container">
-      <form onSubmit={handleSendOTP} className="forgot-card">
-        <h2>Forgot Password</h2>
+    <div>
+      <h2>Forgot Password</h2>
 
+      <form onSubmit={handleSendOTP}>
         <input
           type="email"
           placeholder="Enter your email"
@@ -47,7 +48,7 @@ const ForgotPassword = () => {
           required
         />
 
-        <button type="submit">
+        <button type="submit" disabled={loading}>
           {loading ? "Sending OTP..." : "Send OTP"}
         </button>
       </form>

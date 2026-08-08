@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import api from "../../services/api";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const ResetPassword = () => {
@@ -13,8 +13,8 @@ const ResetPassword = () => {
 
   const resetPassword = async () => {
     try {
-      const res = await axios.post(
-        "http://localhost:5000/api/auth/reset-password",
+      const res = await api.post(
+        "/auth/reset-password",
         {
           email,
           otp,
@@ -25,19 +25,17 @@ const ResetPassword = () => {
       alert(res.data.message);
 
       navigate("/");
-
     } catch (err) {
       alert(
         err.response?.data?.message ||
-        "Password Reset Failed"
+          "Password Reset Failed"
       );
     }
   };
 
   return (
-    <div className="forgot-container">
-      <div className="forgot-card">
-
+    <div>
+      <div>
         <h2>Reset Password</h2>
 
         <input
@@ -52,7 +50,6 @@ const ResetPassword = () => {
         <button onClick={resetPassword}>
           Reset Password
         </button>
-
       </div>
     </div>
   );

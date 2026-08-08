@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import api from "../../services/api";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const VerifyOTP = () => {
@@ -12,8 +12,8 @@ const VerifyOTP = () => {
 
   const verifyOTP = async () => {
     try {
-      const res = await axios.post(
-        "http://localhost:5000/api/auth/verify-otp",
+      const res = await api.post(
+        "/auth/verify-otp",
         {
           email,
           otp,
@@ -28,7 +28,6 @@ const VerifyOTP = () => {
           otp,
         },
       });
-
     } catch (err) {
       alert(
         err.response?.data?.message ||
@@ -38,9 +37,8 @@ const VerifyOTP = () => {
   };
 
   return (
-    <div className="forgot-container">
-      <div className="forgot-card">
-
+    <div>
+      <div>
         <h2>Verify OTP</h2>
 
         <input
@@ -55,7 +53,6 @@ const VerifyOTP = () => {
         <button onClick={verifyOTP}>
           Verify OTP
         </button>
-
       </div>
     </div>
   );
