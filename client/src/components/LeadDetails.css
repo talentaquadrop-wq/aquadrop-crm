@@ -1,0 +1,47 @@
+.drawer-overlay{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.3);
+display:flex;
+justify-content:flex-end;
+z-index:999;
+}
+
+.drawer{
+width:400px;
+height:100%;
+background:white;
+padding:25px;
+box-shadow:-5px 0 20px rgba(0,0,0,.1);
+animation:slide .3s ease;
+}
+
+@keyframes slide{
+from{
+transform:translateX(100%);
+}
+to{
+transform:translateX(0);
+}
+}
+
+.drawer-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:25px;
+}
+
+.drawer-header button{
+border:none;
+background:none;
+cursor:pointer;
+}
+
+.info-row{
+display:flex;
+align-items:center;
+gap:15px;
+padding:15px 0;
+border-bottom:1px solid #eee;
+}

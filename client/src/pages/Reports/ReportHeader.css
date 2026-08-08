@@ -1,0 +1,64 @@
+.report-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:25px;
+    gap:20px;
+    flex-wrap:wrap;
+}
+
+.header-left h2{
+    margin:0;
+    font-size:32px;
+    color:#0F172A;
+}
+
+.header-left p{
+    margin-top:6px;
+    color:#64748B;
+    font-size:15px;
+}
+
+.header-buttons{
+    display:flex;
+    gap:15px;
+    flex-wrap:wrap;
+}
+
+.pdf-btn,
+.excel-btn{
+
+    display:flex;
+    align-items:center;
+    gap:10px;
+
+    border:none;
+    border-radius:12px;
+
+    padding:14px 22px;
+
+    color:#fff;
+
+    font-size:15px;
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.3s;
+}
+
+.pdf-btn{
+    background:#EF4444;
+}
+
+.pdf-btn:hover{
+    background:#DC2626;
+}
+
+.excel-btn{
+    background:#16A34A;
+}
+
+.excel-btn:hover{
+    background:#15803D;
+}

@@ -1,0 +1,109 @@
+.notification-dropdown{
+
+    width:340px;
+
+    background:white;
+
+    border-radius:16px;
+
+    padding:20px;
+
+    box-shadow:0 15px 35px rgba(0,0,0,.15);
+
+}
+
+.notification-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:20px;
+
+}
+
+.notification-header span{
+
+    background:#2563EB;
+
+    color:white;
+
+    padding:6px 12px;
+
+    border-radius:20px;
+
+    font-size:12px;
+
+}
+
+.notification-item{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+    padding:15px 0;
+
+    border-bottom:1px solid #E2E8F0;
+
+}
+
+.notification-icon{
+
+    width:45px;
+
+    height:45px;
+
+    border-radius:12px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    color:white;
+
+}
+
+.notification-content h4{
+
+    margin:0;
+
+    color:#0F172A;
+
+}
+
+.notification-content p{
+
+    margin-top:5px;
+
+    color:#64748B;
+
+    font-size:13px;
+
+}
+
+.view-all-btn{
+
+    width:100%;
+
+    margin-top:20px;
+
+    border:none;
+
+    background:#2563EB;
+
+    color:white;
+
+    padding:12px;
+
+    border-radius:10px;
+
+    cursor:pointer;
+
+}

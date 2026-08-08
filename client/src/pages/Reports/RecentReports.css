@@ -1,0 +1,65 @@
+.recent-reports-card{
+    background:#fff;
+    border-radius:18px;
+    padding:20px;
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
+}
+
+.recent-reports-card h3{
+    margin-bottom:20px;
+    color:#0F172A;
+}
+
+.report-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:14px 0;
+    border-bottom:1px solid #E5E7EB;
+}
+
+.report-row:last-child{
+    border-bottom:none;
+}
+
+.report-left{
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
+.report-icon{
+    width:45px;
+    height:45px;
+    border-radius:12px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    color:#fff;
+}
+
+.report-left h4{
+    margin:0;
+    font-size:15px;
+}
+
+.report-left p{
+    margin-top:5px;
+    color:#64748B;
+    font-size:13px;
+}
+
+.download-btn{
+    width:42px;
+    height:42px;
+    border:none;
+    border-radius:10px;
+    background:#2563EB;
+    color:#fff;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.download-btn:hover{
+    transform:scale(1.08);
+}

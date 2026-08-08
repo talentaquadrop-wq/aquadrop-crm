@@ -1,0 +1,81 @@
+.quick-actions-card{
+
+    background:#fff;
+
+    margin-top:25px;
+
+    border-radius:18px;
+
+    padding:25px;
+
+    box-shadow:0 10px 25px rgba(0,0,0,.06);
+
+}
+
+.quick-actions-card h3{
+
+    margin-bottom:20px;
+
+    color:#0f172a;
+
+}
+
+.quick-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(6,1fr);
+
+    gap:20px;
+
+}
+
+.quick-item{
+
+    text-align:center;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+.quick-item:hover{
+
+    transform:translateY(-8px);
+
+}
+
+.quick-icon{
+
+    width:70px;
+
+    height:70px;
+
+    border-radius:18px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    margin:auto;
+
+    color:white;
+
+    font-size:28px;
+
+    box-shadow:0 10px 20px rgba(0,0,0,.15);
+
+}
+
+.quick-item h4{
+
+    margin-top:15px;
+
+    color:#334155;
+
+    font-size:15px;
+
+}

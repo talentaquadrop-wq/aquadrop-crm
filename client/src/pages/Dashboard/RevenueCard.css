@@ -1,0 +1,119 @@
+.revenue-card{
+
+    background:#fff;
+
+    margin-top:25px;
+
+    border-radius:18px;
+
+    padding:25px;
+
+    box-shadow:0 10px 25px rgba(0,0,0,.06);
+
+}
+
+.revenue-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:25px;
+
+}
+
+.revenue-header h3{
+
+    color:#0f172a;
+
+    margin-bottom:5px;
+
+}
+
+.revenue-header p{
+
+    color:#64748b;
+
+    font-size:14px;
+
+}
+
+.revenue-icon{
+
+    width:60px;
+
+    height:60px;
+
+    border-radius:15px;
+
+    background:#2563EB;
+
+    color:white;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-size:25px;
+
+}
+
+.revenue-body{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    gap:20px;
+
+}
+
+.revenue-item{
+
+    flex:1;
+
+    background:#F8FAFC;
+
+    padding:20px;
+
+    border-radius:12px;
+
+    text-align:center;
+
+}
+
+.revenue-item span{
+
+    color:#64748B;
+
+    font-size:14px;
+
+}
+
+.revenue-item h2{
+
+    margin-top:10px;
+
+    color:#0F172A;
+
+}
+
+.growth{
+
+    margin-top:25px;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    color:#16A34A;
+
+    font-weight:600;
+
+}

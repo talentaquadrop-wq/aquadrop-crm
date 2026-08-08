@@ -1,0 +1,315 @@
+/* ====================================
+   AQUA DROP - WELCOME HERO
+==================================== */
+
+.welcome-container {
+    background: linear-gradient(
+        135deg,
+        #2563EB,
+        #1D4ED8,
+        #0EA5E9
+    );
+
+    border-radius: 24px;
+    padding: 35px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    box-shadow: 0 15px 35px rgba(37, 99, 235, 0.25);
+
+    margin-bottom: 30px;
+
+    overflow: hidden;
+    position: relative;
+
+    min-height: 420px;
+    box-sizing: border-box;
+}
+
+/* Decorative circles */
+
+.welcome-container::before {
+    content: "";
+
+    position: absolute;
+
+    width: 260px;
+    height: 260px;
+
+    background: rgba(255, 255, 255, 0.08);
+
+    border-radius: 50%;
+
+    top: -90px;
+    right: -70px;
+}
+
+.welcome-container::after {
+    content: "";
+
+    position: absolute;
+
+    width: 180px;
+    height: 180px;
+
+    background: rgba(255, 255, 255, 0.05);
+
+    border-radius: 50%;
+
+    bottom: -60px;
+    left: -60px;
+}
+
+/* ====================================
+   LEFT CONTENT
+==================================== */
+
+.welcome-left {
+    position: relative;
+
+    z-index: 2;
+
+    max-width: 68%;
+}
+
+.welcome-tag {
+    display: inline-block;
+
+    background: rgba(255, 255, 255, 0.15);
+
+    color: white;
+
+    padding: 8px 16px;
+
+    border-radius: 30px;
+
+    font-size: 13px;
+
+    margin-bottom: 18px;
+
+    backdrop-filter: blur(8px);
+}
+
+.welcome-left h1 {
+    color: white;
+
+    font-size: 38px;
+
+    line-height: 1.2;
+
+    margin: 0;
+
+    font-weight: 800;
+}
+
+.welcome-left p {
+    color: #E2E8F0;
+
+    margin-top: 12px;
+
+    font-size: 16px;
+
+    line-height: 1.7;
+}
+
+/* ====================================
+   TODAY INFO
+==================================== */
+
+.today-info {
+    display: flex;
+
+    gap: 30px;
+
+    margin-top: 20px;
+
+    color: white;
+
+    flex-wrap: wrap;
+}
+
+.today-info div {
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    font-size: 14px;
+
+    font-weight: 500;
+}
+
+/* ====================================
+   SUMMARY CARDS
+==================================== */
+
+.summary-row {
+    display: flex;
+
+    gap: 18px;
+
+    margin-top: 28px;
+
+    flex-wrap: wrap;
+}
+
+.summary-box {
+    background: rgba(255, 255, 255, 0.15);
+
+    backdrop-filter: blur(12px);
+
+    border: 1px solid rgba(255, 255, 255, 0.15);
+
+    border-radius: 18px;
+
+    padding: 18px 24px;
+
+    min-width: 150px;
+
+    transition: 0.3s;
+}
+
+.summary-box:hover {
+    transform: translateY(-6px);
+
+    background: rgba(255, 255, 255, 0.22);
+}
+
+.summary-box h3 {
+    color: #fff;
+
+    font-size: 28px;
+
+    margin: 0;
+
+    font-weight: 800;
+}
+
+.summary-box p {
+    margin-top: 8px;
+
+    color: #E2E8F0;
+
+    font-size: 14px;
+}
+
+/* ====================================
+   QUICK ACTIONS
+==================================== */
+
+.quick-actions {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 15px;
+
+    position: relative;
+
+    z-index: 2;
+
+    min-width: 210px;
+}
+
+.quick-actions h3 {
+    color: white;
+
+    margin: 0 0 5px;
+
+    font-size: 20px;
+}
+
+.quick-actions button {
+    width: 210px;
+
+    background: white;
+
+    color: #2563EB;
+
+    border: none;
+
+    border-radius: 14px;
+
+    padding: 14px 18px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    font-size: 15px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.quick-actions button:hover {
+    transform: translateX(8px);
+
+    background: #F8FAFC;
+}
+
+/* ====================================
+   RESPONSIVE
+==================================== */
+
+@media (max-width: 1100px) {
+
+    .welcome-container {
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 30px;
+
+        min-height: auto;
+    }
+
+    .welcome-left {
+        max-width: 100%;
+    }
+
+    .quick-actions {
+        width: 100%;
+    }
+
+    .quick-actions button {
+        width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+
+    .welcome-container {
+        padding: 25px;
+    }
+
+    .welcome-left h1 {
+        font-size: 28px;
+    }
+
+    .summary-row {
+        flex-direction: column;
+    }
+
+    .summary-box {
+        width: 100%;
+
+        box-sizing: border-box;
+    }
+
+    .today-info {
+        flex-direction: column;
+
+        gap: 12px;
+    }
+}

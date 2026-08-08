@@ -1,0 +1,102 @@
+.modal-overlay{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.4);
+display:flex;
+justify-content:center;
+align-items:center;
+z-index:999;
+}
+
+.lead-modal{
+width:700px;
+background:#fff;
+border-radius:15px;
+padding:25px;
+animation:popup .25s ease;
+}
+
+@keyframes popup{
+from{
+opacity:0;
+transform:scale(.9);
+}
+to{
+opacity:1;
+transform:scale(1);
+}
+}
+
+.modal-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:20px;
+}
+
+.close-btn{
+border:none;
+background:none;
+font-size:22px;
+cursor:pointer;
+}
+
+.form-grid{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:15px;
+}
+
+.form-grid input,
+.form-grid select{
+padding:12px;
+border:1px solid #ddd;
+border-radius:10px;
+outline:none;
+font-size:14px;
+}
+
+.form-grid input:focus,
+.form-grid select:focus{
+border-color:#2563eb;
+}
+
+.modal-footer{
+margin-top:25px;
+display:flex;
+justify-content:flex-end;
+gap:15px;
+}
+
+.cancel-btn{
+padding:10px 18px;
+background:#e5e7eb;
+border:none;
+border-radius:10px;
+cursor:pointer;
+}
+
+.save-btn{
+padding:10px 20px;
+background:#2563eb;
+color:#fff;
+border:none;
+border-radius:10px;
+cursor:pointer;
+}
+
+.save-btn:hover{
+background:#1d4ed8;
+}
+
+@media(max-width:768px){
+
+.lead-modal{
+width:95%;
+}
+
+.form-grid{
+grid-template-columns:1fr;
+}
+
+}
