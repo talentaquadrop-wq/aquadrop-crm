@@ -1,0 +1,113 @@
+/* =========================================
+   AQUA DROP CRM LAYOUT
+========================================= */
+
+.crm-layout {
+  width: 100%;
+  min-height: 100vh;
+
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr);
+
+  background: #f5f7fb;
+}
+
+
+/* =========================================
+   SIDEBAR
+========================================= */
+
+.crm-sidebar {
+  width: 280px;
+  min-height: 100vh;
+
+  position: sticky;
+  top: 0;
+
+  background: #0f172a;
+
+  z-index: 100;
+}
+
+
+/* =========================================
+   MAIN
+========================================= */
+
+.crm-main {
+  min-width: 0;
+  min-height: 100vh;
+
+  background: #f5f7fb;
+
+  overflow-x: hidden;
+}
+
+
+/* =========================================
+   CONTENT
+========================================= */
+
+.crm-content {
+  width: 100%;
+  min-width: 0;
+
+  box-sizing: border-box;
+}
+
+
+/* =========================================
+   NAVBAR AREA
+========================================= */
+
+.crm-main > .navbar {
+  width: calc(100% - 30px);
+  margin: 15px auto 25px;
+
+  box-sizing: border-box;
+}
+
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 1200px) {
+
+  .crm-layout {
+    grid-template-columns: 250px minmax(0, 1fr);
+  }
+
+  .crm-sidebar {
+    width: 250px;
+  }
+
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 768px) {
+
+  .crm-layout {
+    display: block;
+  }
+
+  .crm-sidebar {
+    width: 100%;
+    min-height: auto;
+    position: relative;
+  }
+
+  .crm-main {
+    width: 100%;
+  }
+
+  .crm-main > .navbar {
+    width: calc(100% - 20px);
+    margin: 10px auto 20px;
+  }
+
+}

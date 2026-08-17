@@ -1,11 +1,20 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
+// ===============================
+// AUTH PAGES
+// ===============================
 
 import Login from "./pages/Auth/Login";
 import ForgotPassword from "./pages/Auth/ForgotPassword";
 import VerifyOTP from "./pages/Auth/VerifyOTP";
 import ResetPassword from "./pages/Auth/ResetPassword";
+
+// ===============================
+// CRM PAGES
+// ===============================
 
 import Dashboard from "./pages/Dashboard/Dashboard";
 import Leads from "./pages/Leads/Leads";
@@ -16,190 +25,174 @@ import Installations from "./pages/Installations/Installations";
 import Services from "./pages/Services/Services";
 import Reports from "./pages/Reports/Reports";
 import Employees from "./pages/Employees/Employees";
+import Quotations from "./pages/Quotations/Quotations";
+
+// ===============================
+// IVR PAGE
+// ===============================
+
+import IVR from "./pages/IVR/IVR";
+
+// ===============================
+// LAYOUT
+// ===============================
+
+import Layout from "./components/layout/Layout";
+
+// ===============================
+// PROTECTED ROUTE
+// ===============================
 
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 
 function App() {
   return (
     <BrowserRouter>
+
       <Routes>
 
-        {/* =========================
-            Public Routes
-        ========================== */}
+        {/* =================================
+            PUBLIC ROUTES
+        ================================= */}
 
         <Route path="/" element={<Login />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/verify-otp" element={<VerifyOTP />} />
-        <Route path="/reset-password" element={<ResetPassword />} />
 
-        {/* =========================
-            Dashboard (All Logged Users)
-        ========================== */}
+        <Route path="/login" element={<Login />} />
 
         <Route
-          path="/dashboard"
+          path="/forgot-password"
+          element={<ForgotPassword />}
+        />
+
+        <Route
+          path="/verify-otp"
+          element={<VerifyOTP />}
+        />
+
+        <Route
+          path="/reset-password"
+          element={<ResetPassword />}
+        />
+
+
+        {/* =================================
+            PROTECTED CRM LAYOUT
+        ================================= */}
+
+        <Route
           element={
             <ProtectedRoute>
-              <Dashboard />
+              <Layout />
             </ProtectedRoute>
           }
-        />
+        >
 
-        {/* =========================
-            Leads
-        ========================== */}
+          {/* Dashboard */}
+          <Route
+            path="/dashboard"
+            element={<Dashboard />}
+          />
 
-        <Route
-          path="/leads"
-          element={
-            <ProtectedRoute
-              allowedRoles={[
-                "Admin",
-                "Manager",
-                "Executive",
-                "Sales",
-              ]}
-            >
-              <Leads />
-            </ProtectedRoute>
-          }
-        />
+          {/* Customers */}
+          <Route
+            path="/customers"
+            element={<Customers />}
+          />
 
-        {/* =========================
-            Customers
-        ========================== */}
+          {/* Leads */}
+          <Route
+            path="/leads"
+            element={<Leads />}
+          />
 
-        <Route
-          path="/customers"
-          element={
-            <ProtectedRoute
-              allowedRoles={[
-                "Admin",
-                "Manager",
-                "Executive",
-                "Sales",
-              ]}
-            >
-              <Customers />
-            </ProtectedRoute>
-          }
-        />
+          {/* Quotations */}
+          <Route
+            path="/quotations"
+            element={<Quotations />}
+          />
 
-        {/* =========================
-            Inventory
-        ========================== */}
+          {/* Inventory */}
+          <Route
+            path="/inventory"
+            element={<Inventory />}
+          />
 
-        <Route
-          path="/inventory"
-          element={
-            <ProtectedRoute
-              allowedRoles={[
-                "Admin",
-                "Inventory",
-              ]}
-            >
-              <Inventory />
-            </ProtectedRoute>
-          }
-        />
+          {/* Dispatch */}
+          <Route
+            path="/dispatch"
+            element={<Dispatch />}
+          />
 
-        {/* =========================
-            Dispatch
-        ========================== */}
+          {/* Installations */}
+          <Route
+            path="/installations"
+            element={<Installations />}
+          />
 
-        <Route
-          path="/dispatch"
-          element={
-            <ProtectedRoute
-              allowedRoles={[
-                "Admin",
-                "Inventory",
-                "Dispatch",
-              ]}
-            >
-              <Dispatch />
-            </ProtectedRoute>
-          }
-        />
+          {/* Services */}
+          <Route
+            path="/services"
+            element={<Services />}
+          />
 
-        {/* =========================
-            Installations
-        ========================== */}
+          {/* Employees */}
+          <Route
+            path="/employees"
+            element={<Employees />}
+          />
+
+          {/* =================================
+              IVR MANAGEMENT
+          ================================= */}
+
+          <Route
+            path="/ivr"
+            element={<IVR />}
+          />
+
+          {/* Reports */}
+          <Route
+            path="/reports"
+            element={<Reports />}
+          />
+
+        </Route>
+
+
+        {/* =================================
+            404
+        ================================= */}
 
         <Route
-          path="/installations"
+          path="*"
           element={
-            <ProtectedRoute
-              allowedRoles={[
-                "Admin",
-                "Service",
-              ]}
+            <div
+              style={{
+                padding: "40px",
+                textAlign: "center",
+              }}
             >
-              <Installations />
-            </ProtectedRoute>
-          }
-        />
+              <h2>404 - Page Not Found</h2>
 
-        {/* =========================
-            Services
-        ========================== */}
-
-        <Route
-          path="/services"
-          element={
-            <ProtectedRoute
-              allowedRoles={[
-                "Admin",
-                "Service",
-              ]}
-            >
-              <Services />
-            </ProtectedRoute>
-          }
-        />
-
-        {/* =========================
-            Employees
-        ========================== */}
-
-        <Route
-          path="/employees"
-          element={
-            <ProtectedRoute
-              allowedRoles={[
-                "Admin",
-              ]}
-            >
-              <Employees />
-            </ProtectedRoute>
-          }
-        />
-
-        {/* =========================
-            Reports
-        ========================== */}
-
-        <Route
-          path="/reports"
-          element={
-            <ProtectedRoute
-              allowedRoles={[
-                "Admin",
-              ]}
-            >
-              <Reports />
-            </ProtectedRoute>
+              <p>
+                The page you are looking for does not exist.
+              </p>
+            </div>
           }
         />
 
       </Routes>
 
+
+      {/* =================================
+          TOAST
+      ================================= */}
+
       <ToastContainer
         position="top-right"
         autoClose={3000}
       />
+
     </BrowserRouter>
   );
 }

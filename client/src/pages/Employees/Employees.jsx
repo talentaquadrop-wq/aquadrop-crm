@@ -1,7 +1,5 @@
 import React, { useState, useEffect, useMemo, useCallback } from "react";
 import { toast } from "react-toastify";
-import Sidebar from "../../components/layout/Sidebar/Sidebar";
-import Navbar from "../../components/layout/Navbar/Navbar";
 import {
   getEmployees,
   createEmployee,
@@ -231,11 +229,7 @@ const Employees = () => {
   };
 
   return (
-    <div className="dashboard-container">
-      <Sidebar />
-      <div className="main-content">
-        <Navbar />
-        <div className="page-content">
+    <div className="page-content">
           <div className="page-header">
             <h2 className="page-title">Employee Management</h2>
             <button className="btn btn-primary" onClick={handleOpenAddModal}>
@@ -525,8 +519,6 @@ const Employees = () => {
               </div>
             </div>
           )}
-        </div>
-      </div>
     </div>
   );
 };

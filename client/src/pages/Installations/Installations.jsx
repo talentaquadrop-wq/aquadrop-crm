@@ -1,7 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
 import "./Installations.css";
-import Sidebar from "../../components/layout/Sidebar/Sidebar";
-import Navbar from "../../components/layout/Navbar/Navbar";
 
 import {
   getInstallations,
@@ -173,13 +171,7 @@ export default function Installations() {
   }
 
   return (
-    <div className="dashboard-layout">
-      <Sidebar />
-
-      <div className="dashboard-content">
-        <Navbar />
-
-        <div className="installations-container">
+    <div className="installations-container">
           {/* Header */}
           <div className="installations-header">
             <div>
@@ -506,8 +498,6 @@ export default function Installations() {
               </div>
             </div>
           )}
-        </div>
-      </div>
     </div>
   );
 }

@@ -1,6 +1,4 @@
 import React, { useState, useEffect, useMemo } from "react";
-import Sidebar from "../../components/layout/Sidebar/Sidebar";
-import Navbar from "../../components/layout/Navbar/Navbar";
 import { toast } from "react-toastify";
 import { exportProductsExcel } from "../../utils/exportProductsExcel";
 import { exportProductsPDF } from "../../utils/exportProductsPDF";
@@ -215,13 +213,7 @@ export default function Inventory() {
   const outOfStock = products.filter((x) => x.status === "Out of Stock").length;
 
   return (
-    <div className="dashboard-layout">
-      <Sidebar />
-
-      <div className="dashboard-content">
-        <Navbar />
-
-        <div className="inventory-container">
+    <div className="inventory-container">
           <div className="inventory-header">
             <div>
               <h1>Inventory Management</h1>
@@ -583,8 +575,6 @@ export default function Inventory() {
               </button>
             </div>
           </div>
-        </div>
-      </div>
     </div>
   );
 }

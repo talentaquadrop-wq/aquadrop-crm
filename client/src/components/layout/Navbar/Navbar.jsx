@@ -1,5 +1,10 @@
 import "./Navbar.css";
-import { useNavigate, useLocation } from "react-router-dom";
+
+import {
+  useNavigate,
+  useLocation,
+} from "react-router-dom";
+
 import {
   FaSearch,
   FaBell,
@@ -7,16 +12,26 @@ import {
   FaBars,
 } from "react-icons/fa";
 
+
 function Navbar() {
+
   const navigate = useNavigate();
   const location = useLocation();
 
-  const user = JSON.parse(localStorage.getItem("user"));
+  const user = JSON.parse(
+    localStorage.getItem("user") || "null"
+  );
+
+
+  // =========================
+  // PAGE TITLES
+  // =========================
 
   const titles = {
     "/dashboard": "Dashboard",
     "/leads": "Leads",
     "/customers": "Customers",
+    "/quotations": "Quotations",
     "/installations": "Installations",
     "/services": "Services",
     "/inventory": "Inventory",
@@ -26,63 +41,145 @@ function Navbar() {
     "/settings": "Settings",
   };
 
+
   const pageTitle =
     titles[location.pathname] || "Aqua Drop CRM";
 
+
+  // =========================
+  // LOGOUT
+  // =========================
+
   const handleLogout = () => {
+
     localStorage.removeItem("token");
     localStorage.removeItem("user");
+
     navigate("/login");
   };
 
+
+  // =========================
+  // NAVBAR
+  // =========================
+
   return (
-    <header className="navbar">
+
+    <header className="crm-navbar">
+
+      {/* =========================
+          LEFT
+      ========================== */}
 
       <div className="navbar-left">
-        <FaBars className="menu-toggle" />
 
-        <div>
+        <button
+          type="button"
+          className="menu-toggle"
+          aria-label="Menu"
+        >
+          <FaBars />
+        </button>
+
+
+        <div className="navbar-title">
+
           <h2>{pageTitle}</h2>
-          <span>Welcome back 👋</span>
+
+          <span>
+            Welcome back 👋
+          </span>
+
         </div>
+
       </div>
 
+
+      {/* =========================
+          SEARCH
+      ========================== */}
+
       <div className="navbar-search">
+
         <FaSearch className="search-icon" />
 
         <input
           type="text"
           placeholder="Search customers, leads, products..."
         />
+
       </div>
+
+
+      {/* =========================
+          RIGHT
+      ========================== */}
 
       <div className="navbar-right">
 
-        <button className="icon-box">
+
+        {/* Dark Mode */}
+
+        <button
+          type="button"
+          className="icon-box"
+          aria-label="Toggle theme"
+        >
           <FaMoon />
         </button>
 
-        <button className="icon-box">
+
+        {/* Notifications */}
+
+        <button
+          type="button"
+          className="icon-box notification-btn"
+          aria-label="Notifications"
+        >
+
           <FaBell />
-          <span className="badge">3</span>
+
+          <span className="badge">
+            3
+          </span>
+
         </button>
+
+
+        {/* Profile */}
 
         <div className="profile">
 
           <div className="avatar">
+
             {user?.name
-              ? user.name.charAt(0).toUpperCase()
+              ? user.name
+                  .charAt(0)
+                  .toUpperCase()
               : "A"}
+
           </div>
 
+
           <div className="profile-info">
-            <h4>{user?.name || "Guest"}</h4>
-            <p>{user?.role || "User"}</p>
+
+            <h4>
+              {user?.name || "Administrator"}
+            </h4>
+
+            <p>
+              {user?.role || "Admin"}
+            </p>
+
           </div>
 
         </div>
 
+
+        {/* Logout */}
+
         <button
+          type="button"
           className="logout-btn-nav"
           onClick={handleLogout}
         >
@@ -94,5 +191,6 @@ function Navbar() {
     </header>
   );
 }
+
 
 export default Navbar;

@@ -1,6 +1,4 @@
 import React, { useEffect, useMemo, useState } from "react";
-import Sidebar from "../../components/layout/Sidebar/Sidebar";
-import Navbar from "../../components/layout/Navbar/Navbar";
 import { toast } from "react-toastify";
 import { exportDispatchExcel } from "../../utils/exportDispatchExcel";
 import { exportDispatchPDF } from "../../utils/exportDispatchPDF";
@@ -175,11 +173,7 @@ export default function Dispatch() {
 
   return (
     
-    <div className="dashboard-layout">
-      <Sidebar />
-      <div className="dashboard-content">
-        <Navbar />
-        <div className="dispatch-container">
+    <div className="dispatch-container">
           <div className="dispatch-header">
             <div>
               <h1>Dispatch Management</h1>
@@ -613,8 +607,6 @@ onClick={handleAddNew}
               </div>
             </div>
           )}
-        </div>
-      </div>
     </div>
   );
 }

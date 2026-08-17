@@ -1,0 +1,565 @@
+/* =========================================
+   AQUA DROP CRM - QUOTATIONS
+========================================= */
+
+.quotations-page {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  min-height: calc(100vh - 80px);
+
+  padding: 25px;
+  box-sizing: border-box;
+
+  background: #f5f7fb;
+
+  overflow-x: hidden;
+}
+
+/* =========================================
+   HEADER
+========================================= */
+
+.quotations-header {
+  width: 100%;
+  max-width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 20px;
+  margin-bottom: 25px;
+
+  box-sizing: border-box;
+}
+
+.quotations-header h1 {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  margin: 0;
+
+  color: #0f172a;
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.quotations-header h1 svg {
+  color: #2563eb;
+  font-size: 28px;
+  flex-shrink: 0;
+}
+
+.quotations-header p {
+  margin: 7px 0 0;
+
+  color: #64748b;
+  font-size: 14px;
+}
+
+/* =========================================
+   ADD QUOTATION BUTTON
+========================================= */
+
+.add-quotation-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+
+  border: none;
+  border-radius: 10px;
+
+  padding: 12px 18px;
+
+  background: #2563eb;
+  color: #ffffff;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  white-space: nowrap;
+
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.add-quotation-btn:hover {
+  background: #1d4ed8;
+
+  transform: translateY(-1px);
+
+  box-shadow: 0 6px 15px rgba(37, 99, 235, 0.25);
+}
+
+/* =========================================
+   TOOLBAR
+========================================= */
+
+.quotation-toolbar {
+  width: 100%;
+  max-width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 15px;
+
+  padding: 18px;
+  margin-bottom: 20px;
+
+  box-sizing: border-box;
+
+  background: #ffffff;
+
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+
+  box-shadow: 0 4px 15px rgba(15, 23, 42, 0.04);
+}
+
+/* =========================================
+   SEARCH
+========================================= */
+
+.quotation-search {
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+
+  width: 100%;
+  max-width: 500px;
+  min-width: 0;
+
+  padding: 11px 14px;
+
+  box-sizing: border-box;
+
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+
+  background: #f8fafc;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.quotation-search:focus-within {
+  border-color: #2563eb;
+
+  box-shadow:
+    0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.quotation-search svg {
+  flex-shrink: 0;
+
+  color: #94a3b8;
+}
+
+.quotation-search input {
+  width: 100%;
+  min-width: 0;
+
+  border: none;
+  outline: none;
+
+  background: transparent;
+
+  color: #0f172a;
+
+  font-size: 14px;
+}
+
+.quotation-search input::placeholder {
+  color: #94a3b8;
+}
+
+/* =========================================
+   STATUS FILTER
+========================================= */
+
+.quotation-toolbar select {
+  min-width: 150px;
+
+  padding: 11px 14px;
+
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+
+  background: #ffffff;
+
+  color: #334155;
+
+  outline: none;
+
+  font-size: 14px;
+
+  cursor: pointer;
+
+  box-sizing: border-box;
+}
+
+.quotation-toolbar select:focus {
+  border-color: #2563eb;
+
+  box-shadow:
+    0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+/* =========================================
+   TABLE CONTAINER
+========================================= */
+
+.quotation-table-container {
+  width: 100%;
+  max-width: 100%;
+
+  overflow-x: auto;
+
+  background: #ffffff;
+
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+
+  box-shadow:
+    0 4px 18px rgba(15, 23, 42, 0.04);
+
+  box-sizing: border-box;
+}
+
+/* =========================================
+   TABLE
+========================================= */
+
+.quotation-table {
+  width: 100%;
+
+  min-width: 900px;
+
+  border-collapse: collapse;
+}
+
+.quotation-table thead {
+  background: #f8fafc;
+}
+
+.quotation-table th {
+  padding: 15px 16px;
+
+  border-bottom: 1px solid #e2e8f0;
+
+  color: #64748b;
+
+  font-size: 12px;
+  font-weight: 700;
+
+  text-align: left;
+
+  text-transform: uppercase;
+
+  white-space: nowrap;
+}
+
+.quotation-table td {
+  padding: 17px 16px;
+
+  border-bottom: 1px solid #f1f5f9;
+
+  color: #334155;
+
+  font-size: 14px;
+
+  vertical-align: middle;
+}
+
+.quotation-table tbody tr {
+  transition: background 0.2s ease;
+}
+
+.quotation-table tbody tr:hover {
+  background: #f8fafc;
+}
+
+.quotation-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* =========================================
+   QUOTATION / CUSTOMER INFO
+========================================= */
+
+.quotation-table td strong {
+  display: block;
+
+  color: #0f172a;
+
+  font-weight: 600;
+}
+
+.created-date,
+.customer-phone {
+  display: block;
+
+  margin-top: 5px;
+
+  color: #94a3b8;
+
+  font-size: 12px;
+}
+
+/* =========================================
+   STATUS
+========================================= */
+
+.quotation-status {
+  padding: 7px 10px;
+
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+
+  outline: none;
+
+  background: #f8fafc;
+
+  color: #334155;
+
+  font-size: 12px;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.quotation-status:focus {
+  border-color: #2563eb;
+
+  box-shadow:
+    0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+/* =========================================
+   ACTIONS
+========================================= */
+
+.quotation-actions {
+  display: flex;
+  align-items: center;
+
+  gap: 7px;
+
+  white-space: nowrap;
+}
+
+.quotation-actions button {
+  width: 34px;
+  height: 34px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: none;
+  border-radius: 8px;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.quotation-actions button:hover {
+  transform: translateY(-1px);
+}
+
+/* View */
+
+.view-btn {
+  background: #eff6ff;
+  color: #2563eb;
+}
+
+.view-btn:hover {
+  background: #dbeafe;
+}
+
+/* Edit */
+
+.edit-btn {
+  background: #fef3c7;
+  color: #d97706;
+}
+
+.edit-btn:hover {
+  background: #fde68a;
+}
+
+/* Delete */
+
+.delete-btn {
+  background: #fef2f2;
+  color: #dc2626;
+}
+
+.delete-btn:hover {
+  background: #fee2e2;
+}
+
+/* =========================================
+   EMPTY STATE
+========================================= */
+
+.quotation-empty {
+  height: 250px;
+
+  text-align: center !important;
+
+  color: #94a3b8 !important;
+}
+
+.quotation-empty svg {
+  margin-bottom: 10px;
+
+  color: #cbd5e1;
+
+  font-size: 35px;
+}
+
+.quotation-empty h3 {
+  margin: 5px 0;
+
+  color: #334155;
+
+  font-size: 17px;
+}
+
+.quotation-empty p {
+  margin: 5px 0;
+
+  color: #94a3b8;
+
+  font-size: 13px;
+}
+
+/* =========================================
+   FOOTER
+========================================= */
+
+.quotation-footer {
+  margin-top: 12px;
+
+  color: #64748b;
+
+  font-size: 13px;
+}
+
+.quotation-footer strong {
+  color: #0f172a;
+}
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 1200px) {
+  .quotations-page {
+    padding: 20px;
+  }
+
+  .quotations-header h1 {
+    font-size: 25px;
+  }
+
+  .quotation-table {
+    min-width: 850px;
+  }
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 768px) {
+  .quotations-page {
+    padding: 15px;
+  }
+
+  .quotations-header {
+    align-items: flex-start;
+
+    flex-direction: column;
+  }
+
+  .quotations-header h1 {
+    font-size: 23px;
+  }
+
+  .quotations-header p {
+    font-size: 13px;
+  }
+
+  .add-quotation-btn {
+    width: 100%;
+  }
+
+  .quotation-toolbar {
+    align-items: stretch;
+
+    flex-direction: column;
+  }
+
+  .quotation-search {
+    max-width: none;
+  }
+
+  .quotation-toolbar select {
+    width: 100%;
+  }
+
+  .quotation-table {
+    min-width: 850px;
+  }
+}
+
+/* =========================================
+   SMALL MOBILE
+========================================= */
+
+@media (max-width: 480px) {
+  .quotations-page {
+    padding: 12px;
+  }
+
+  .quotations-header h1 {
+    font-size: 21px;
+  }
+
+  .add-quotation-btn {
+    padding: 11px 15px;
+
+    font-size: 13px;
+  }
+
+  .quotation-toolbar {
+    padding: 13px;
+  }
+
+  .quotation-table th {
+    padding: 12px;
+  }
+
+  .quotation-table td {
+    padding: 14px 12px;
+  }
+}

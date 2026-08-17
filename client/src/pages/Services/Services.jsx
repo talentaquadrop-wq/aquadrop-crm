@@ -1,6 +1,4 @@
 import React, { useState, useEffect, useMemo } from "react";
-import Sidebar from "../../components/layout/Sidebar/Sidebar";
-import Navbar from "../../components/layout/Navbar/Navbar";
 import { toast } from "react-toastify";
 
 import {
@@ -212,15 +210,7 @@ export default function Services() {
   ).length;
 
   return (
-    <div className="dashboard-layout">
-
-      <Sidebar />
-
-      <div className="dashboard-content">
-
-        <Navbar />
-
-        <div className="services-container">
+    <div className="services-container">
 
           <div className="services-header">
 
@@ -581,10 +571,6 @@ export default function Services() {
             </table>
 
           </div>
-
-        </div>
-
-      </div>
 
     </div>
 

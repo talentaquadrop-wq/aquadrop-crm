@@ -1,9 +1,6 @@
 import React from "react";
 import "./Reports.css";
 
-import Sidebar from "../../components/layout/Sidebar/Sidebar";
-import Navbar from "../../components/layout/Navbar/Navbar";
-
 import ReportHeader from "./ReportHeader";
 import SummaryCards from "./SummaryCards";
 import ReportFilters from "./ReportFilters";
@@ -17,46 +14,46 @@ import RecentReports from "./RecentReports";
 
 export default function Reports() {
   return (
-    <div className="dashboard-container">
+    <div className="reports-page">
 
-      <Sidebar />
+      {/* =========================
+          REPORT HEADER
+      ========================== */}
 
-      <div className="main-content">
+      <ReportHeader />
 
-        <Navbar />
+      {/* =========================
+          SUMMARY CARDS
+      ========================== */}
 
-        <div className="reports-page">
+      <SummaryCards />
 
-          <ReportHeader />
+      {/* =========================
+          FILTERS
+      ========================== */}
 
-          <SummaryCards />
+      <ReportFilters />
 
-          <ReportFilters />
+      {/* =========================
+          CHARTS
+      ========================== */}
 
-          {/* Charts */}
+      <div className="reports-chart-grid">
+        <RevenueChart />
 
-          <div className="reports-chart-grid">
+        <SalesChart />
 
-            <RevenueChart />
+        <SalesCategoryChart />
+      </div>
 
-            <SalesChart />
+      {/* =========================
+          BOTTOM CARDS
+      ========================== */}
 
-            <SalesCategoryChart />
+      <div className="reports-bottom-grid">
+        <TopProducts />
 
-          </div>
-
-          {/* Bottom Cards */}
-
-          <div className="reports-bottom-grid">
-
-            <TopProducts />
-
-            <RecentReports />
-
-          </div>
-
-        </div>
-
+        <RecentReports />
       </div>
 
     </div>

@@ -1,8 +1,6 @@
 import React, { useEffect, useMemo, useState, useCallback } from "react";
 import "./Leads.css";
 
-import Sidebar from "../../components/layout/Sidebar/Sidebar";
-import Navbar from "../../components/layout/Navbar/Navbar";
 import { exportLeadsToExcel } from "../../utils/exportExcel";
 import { exportLeadsToPDF } from "../../utils/exportPDF";
 import {
@@ -253,13 +251,8 @@ export default function Leads() {
   }
 
   return (
-    <div className="dashboard-layout">
-      <Sidebar />
-
-      <div className="dashboard-content">
-        <Navbar />
-
-        <div className="leads-header">
+    <div className="leads-page">
+      <div className="leads-header">
           <div>
             <h1>Leads Management</h1>
             <p>Manage all Aqua Drop customer leads</p>
@@ -667,7 +660,6 @@ export default function Leads() {
             </div>
           </div>
         )}
-      </div>
     </div>
   );
 }

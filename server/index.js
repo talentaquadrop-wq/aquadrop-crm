@@ -8,6 +8,7 @@ const connectDB = require("./config/db");
 // =========================
 // Route Imports
 // =========================
+
 const leadRoutes = require("./routes/leadRoutes");
 const customerRoutes = require("./routes/customerRoutes");
 const installationRoutes = require("./routes/installationRoutes");
@@ -17,22 +18,27 @@ const authRoutes = require("./routes/authRoutes");
 const productRoutes = require("./routes/productRoutes");
 const dispatchRoutes = require("./routes/dispatchRoutes");
 const employeeRoutes = require("./routes/employeeRoutes");
+const quotationRoutes = require("./routes/quotationRoutes");
+
 const app = express();
 
 // =========================
 // Connect MongoDB
 // =========================
+
 connectDB();
 
 // =========================
 // Middleware
 // =========================
+
 app.use(cors());
 app.use(express.json());
 
 // =========================
 // Home Route
 // =========================
+
 app.get("/", (req, res) => {
   res.send("🚀 Aqua Drop Backend API Running...");
 });
@@ -40,6 +46,7 @@ app.get("/", (req, res) => {
 // =========================
 // API Routes
 // =========================
+
 app.use("/api/leads", leadRoutes);
 
 app.use("/api/customers", customerRoutes);
@@ -51,14 +58,21 @@ app.use("/api/services", serviceRoutes);
 app.use("/api/dashboard", dashboardRoutes);
 
 app.use("/api/auth", authRoutes);
+
 app.use("/api/products", productRoutes);
 
- app.use("/api/reports", reportRoutes);
- app.use("/api/dispatch", dispatchRoutes);
- app.use("/api/employees", employeeRoutes);
+app.use("/api/reports", reportRoutes);
+
+app.use("/api/dispatch", dispatchRoutes);
+
+app.use("/api/employees", employeeRoutes);
+
+app.use("/api/quotations", quotationRoutes);
+
 // =========================
 // 404 Route
 // =========================
+
 app.use((req, res) => {
   res.status(404).json({
     success: false,
@@ -69,4 +83,17 @@ app.use((req, res) => {
 // =========================
 // Start Server
 // =========================
+
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, () => {
+  console.log(
+    `🚀 Aqua Drop Backend running on port ${PORT}`
+  );
+});
+
+// =========================
+// Export App
+// =========================
+
 module.exports = app;

@@ -110,6 +110,23 @@ const leadSchema = new mongoose.Schema(
       default: "New",
     },
 
+    // 🔔 FOLLOW-UP SYSTEM
+    nextFollowUpDate: {
+      type: Date,
+      default: null,
+    },
+
+    followUpStatus: {
+      type: String,
+      enum: ["Pending", "Completed", "Rescheduled"],
+      default: "Pending",
+    },
+
+    followUpNotes: {
+      type: String,
+      default: "",
+    },
+
     priority: {
       type: String,
       enum: ["High", "Medium", "Low"],
@@ -118,16 +135,16 @@ const leadSchema = new mongoose.Schema(
 
     // Assignment
     assignedTo: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-    required: true,
-},
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
 
-createdBy: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-    required: true,
-},
+    createdBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
 
     assignedTelecaller: {
       type: String,
@@ -158,20 +175,20 @@ createdBy: {
       type: String,
       default: "",
     },
+
     isConverted: {
-        type: Boolean,
-        default: false
+      type: Boolean,
+      default: false,
     },
 
     convertedCustomer: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Customer"
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Customer",
     },
 
     convertedAt: {
-        type: Date
-    }
-    
+      type: Date,
+    },
   },
   {
     timestamps: true,
