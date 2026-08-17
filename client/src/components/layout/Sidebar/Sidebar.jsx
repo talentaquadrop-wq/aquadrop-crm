@@ -49,9 +49,9 @@ const Sidebar = () => {
     },
 
     {
-      name: "Customers",
-      path: "/customers",
-      icon: <FaUserFriends />,
+      name: "Leads",
+      path: "/leads",
+      icon: <FaUsers />,
       roles: [
         "Admin",
         "Manager",
@@ -61,9 +61,19 @@ const Sidebar = () => {
     },
 
     {
-      name: "Leads",
-      path: "/leads",
-      icon: <FaUsers />,
+      name: "IVR Management",
+      path: "/ivr",
+      icon: <FaPhoneAlt />,
+      roles: [
+        "Admin",
+        "Manager",
+      ],
+    },
+
+    {
+      name: "Customers",
+      path: "/customers",
+      icon: <FaUserFriends />,
       roles: [
         "Admin",
         "Manager",
@@ -134,20 +144,6 @@ const Sidebar = () => {
       ],
     },
 
-    // =========================================
-    // IVR MANAGEMENT
-    // =========================================
-
-    {
-      name: "IVR Management",
-      path: "/ivr",
-      icon: <FaPhoneAlt />,
-      roles: [
-        "Admin",
-        "Manager",
-      ],
-    },
-
     {
       name: "Reports",
       path: "/reports",
@@ -201,27 +197,15 @@ const Sidebar = () => {
   return (
     <aside className="sidebar">
 
-      {/* =====================================
-          LOGO
-      ====================================== */}
-
+      {/* LOGO */}
       <div className="sidebar-logo">
-
         <div>
           <h2>Aqua Drop</h2>
-
-          <span>
-            CRM
-          </span>
+          <span>CRM</span>
         </div>
-
       </div>
 
-
-      {/* =====================================
-          NAVIGATION
-      ====================================== */}
-
+      {/* NAVIGATION */}
       <nav className="sidebar-menu">
 
         {filteredMenu.map((item) => (
@@ -234,7 +218,6 @@ const Sidebar = () => {
                 : "menu-item"
             }
           >
-
             <span className="menu-icon">
               {item.icon}
             </span>
@@ -248,26 +231,16 @@ const Sidebar = () => {
 
       </nav>
 
-
-      {/* =====================================
-          USER
-      ====================================== */}
-
+      {/* USER */}
       <div className="sidebar-footer">
 
         <div className="admin-avatar">
-
           {user?.name
-            ? user.name
-                .charAt(0)
-                .toUpperCase()
+            ? user.name.charAt(0).toUpperCase()
             : "A"}
-
         </div>
 
-
         <div>
-
           <h4>
             {user?.name || "Guest"}
           </h4>
@@ -275,28 +248,21 @@ const Sidebar = () => {
           <p>
             {user?.role || "User"}
           </p>
-
         </div>
 
       </div>
 
-
-      {/* =====================================
-          LOGOUT
-      ====================================== */}
-
+      {/* LOGOUT */}
       <button
         type="button"
         className="logout-btn"
         onClick={handleLogout}
       >
-
         <FaSignOutAlt />
 
         <span>
           Logout
         </span>
-
       </button>
 
     </aside>
