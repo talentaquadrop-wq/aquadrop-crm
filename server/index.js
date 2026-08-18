@@ -19,6 +19,9 @@ const productRoutes = require("./routes/productRoutes");
 const dispatchRoutes = require("./routes/dispatchRoutes");
 const employeeRoutes = require("./routes/employeeRoutes");
 const quotationRoutes = require("./routes/quotationRoutes");
+const ivrRoutes = require("./routes/ivrRoutes");
+const callRoutes = require("./routes/callRoutes");
+const ivrWebhookRoutes = require("./routes/ivrWebhookRoutes");
 
 const app = express();
 
@@ -32,7 +35,17 @@ connectDB();
 // Middleware
 // =========================
 
-app.use(cors());
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "http://localhost:3000",
+      "https://aqua-drop-crm-bf8.vercel.app",
+    ],
+    credentials: true,
+  })
+);
+
 app.use(express.json());
 
 // =========================
@@ -48,26 +61,23 @@ app.get("/", (req, res) => {
 // =========================
 
 app.use("/api/leads", leadRoutes);
-
 app.use("/api/customers", customerRoutes);
-
 app.use("/api/installations", installationRoutes);
-
 app.use("/api/services", serviceRoutes);
-
 app.use("/api/dashboard", dashboardRoutes);
-
 app.use("/api/auth", authRoutes);
-
 app.use("/api/products", productRoutes);
-
 app.use("/api/reports", reportRoutes);
-
 app.use("/api/dispatch", dispatchRoutes);
-
 app.use("/api/employees", employeeRoutes);
-
 app.use("/api/quotations", quotationRoutes);
+app.use("/api/ivr", ivrRoutes);
+app.use("/api/calls", callRoutes);
+
+app.use(
+  "/api/ivr/webhook",
+  ivrWebhookRoutes
+);
 
 // =========================
 // 404 Route
@@ -91,9 +101,5 @@ app.listen(PORT, () => {
     `🚀 Aqua Drop Backend running on port ${PORT}`
   );
 });
-
-// =========================
-// Export App
-// =========================
 
 module.exports = app;

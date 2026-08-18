@@ -37,3 +37,11 @@ export const convertLead = async (id) => {
   const response = await api.post(`/leads/${id}/convert`);
   return response.data;
 };
+export const addFollowUp = async (id, data) => {
+  const response = await api.post(
+    `/leads/${id}/follow-up`,
+    data
+  );
+
+  return response.data;
+};

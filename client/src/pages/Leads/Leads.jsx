@@ -9,6 +9,7 @@ import {
   updateLead,
   deleteLead,
   convertLead,
+  addFollowUp,
 } from "../../services/leadService";
 import { getExecutives } from "../../services/employeeService";
 
@@ -662,4 +663,4 @@ export default function Leads() {
         )}
     </div>
   );
-}
+}  
