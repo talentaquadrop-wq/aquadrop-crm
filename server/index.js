@@ -41,6 +41,7 @@ app.use(
       "http://localhost:5173",
       "http://localhost:3000",
       "https://aqua-drop-crm-bf8.vercel.app",
+      "https://aqua-drop-crm.vercel.app",
     ],
     credentials: true,
   })
@@ -53,7 +54,7 @@ app.use(express.json());
 // =========================
 
 app.get("/", (req, res) => {
-  res.send("🚀 Aqua Drop Backend API Running...");
+  res.status(200).send("Aqua Drop Backend API Running...");
 });
 
 // =========================
@@ -61,17 +62,29 @@ app.get("/", (req, res) => {
 // =========================
 
 app.use("/api/leads", leadRoutes);
+
 app.use("/api/customers", customerRoutes);
+
 app.use("/api/installations", installationRoutes);
+
 app.use("/api/services", serviceRoutes);
+
 app.use("/api/dashboard", dashboardRoutes);
+
 app.use("/api/auth", authRoutes);
+
 app.use("/api/products", productRoutes);
+
 app.use("/api/reports", reportRoutes);
+
 app.use("/api/dispatch", dispatchRoutes);
+
 app.use("/api/employees", employeeRoutes);
+
 app.use("/api/quotations", quotationRoutes);
+
 app.use("/api/ivr", ivrRoutes);
+
 app.use("/api/calls", callRoutes);
 
 app.use(
@@ -91,15 +104,7 @@ app.use((req, res) => {
 });
 
 // =========================
-// Start Server
+// Export for Vercel
 // =========================
-
-const PORT = process.env.PORT || 5000;
-
-app.listen(PORT, () => {
-  console.log(
-    `🚀 Aqua Drop Backend running on port ${PORT}`
-  );
-});
 
 module.exports = app;
