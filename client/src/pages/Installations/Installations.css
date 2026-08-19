@@ -1,45 +1,91 @@
 /* ==============================
+
    INSTALLATIONS PAGE
+
 ================================ */
 
 .installations-container{
+
 padding:30px;
+
 background:#f8fafc;
+
 min-height:100vh;
+
 }
 
 .installations-header{
+
 display:flex;
+
 justify-content:space-between;
+
 align-items:center;
+
 margin-bottom:25px;
+
 }
 
 .installations-header h1{
+
 font-size:30px;
+
 font-weight:700;
+
 color:#1e293b;
+
 }
 
 .installations-header p{
+
 margin-top:6px;
+
 color:#64748b;
+
 font-size:15px;
+
 }
 
 /* ==============================
+
+HEADER ACTION BUTTONS
+
+================================ */
+
+.installation-header-actions{
+
+display:flex;
+
+align-items:center;
+
+gap:10px;
+
+flex-wrap:wrap;
+
+}
+
+/* ==============================
+
 BUTTON
+
 ================================ */
 
 .add-btn{
 
 background:#2563eb;
+
 color:white;
+
 border:none;
+
 padding:12px 22px;
+
 border-radius:10px;
+
 cursor:pointer;
+
 font-weight:600;
+
 transition:.3s;
 
 }
@@ -52,8 +98,84 @@ transform:translateY(-2px);
 
 }
 
+
 /* ==============================
+
+EXPORT PDF BUTTON
+
+================================ */
+
+.export-pdf-btn{
+
+background:#dc2626;
+
+color:white;
+
+border:none;
+
+padding:12px 18px;
+
+border-radius:10px;
+
+cursor:pointer;
+
+font-size:14px;
+
+font-weight:600;
+
+transition:.3s;
+
+}
+
+.export-pdf-btn:hover{
+
+background:#b91c1c;
+
+transform:translateY(-2px);
+
+}
+
+
+/* ==============================
+
+EXPORT EXCEL BUTTON
+
+================================ */
+
+.export-excel-btn{
+
+background:#16a34a;
+
+color:white;
+
+border:none;
+
+padding:12px 18px;
+
+border-radius:10px;
+
+cursor:pointer;
+
+font-size:14px;
+
+font-weight:600;
+
+transition:.3s;
+
+}
+
+.export-excel-btn:hover{
+
+background:#15803d;
+
+transform:translateY(-2px);
+
+}
+
+/* ==============================
+
 STATS
+
 ================================ */
 
 .stats-grid{
@@ -99,7 +221,9 @@ color:#64748b;
 }
 
 /* ==============================
+
 TOOLBAR
+
 ================================ */
 
 .toolbar{
@@ -166,6 +290,12 @@ transition:.3s;
 
 }
 
+.status-filters button:hover{
+
+background:#cbd5e1;
+
+}
+
 .active-filter{
 
 background:#2563eb !important;
@@ -173,8 +303,11 @@ background:#2563eb !important;
 color:white;
 
 }
+
 /* ===============================
+
 TABLE
+
 ================================ */
 
 .table-card{
@@ -242,7 +375,9 @@ background:#f8fafc;
 }
 
 /* ===============================
+
 STATUS
+
 ================================ */
 
 .status{
@@ -294,7 +429,9 @@ color:#dc2626;
 }
 
 /* ===============================
+
 ACTION BUTTONS
+
 ================================ */
 
 .action-buttons{
@@ -340,8 +477,11 @@ color:white;
 }
 
 .view-btn,
+
 .edit-btn,
+
 .complete-btn,
+
 .delete-btn{
 
 border:none;
@@ -383,8 +523,11 @@ background:#15803d;
 background:#dc2626;
 
 }
+
 /* =====================================
+
 FORM CARD
+
 ===================================== */
 
 .form-card{
@@ -414,7 +557,9 @@ color:#1e293b;
 }
 
 /* =====================================
+
 FORM GRID
+
 ===================================== */
 
 .form-grid{
@@ -448,7 +593,9 @@ color:#334155;
 }
 
 .form-group input,
+
 .form-group select,
+
 .form-group textarea{
 
 padding:12px 14px;
@@ -468,7 +615,9 @@ background:#fff;
 }
 
 .form-group input:focus,
+
 .form-group select:focus,
+
 .form-group textarea:focus{
 
 border-color:#2563eb;
@@ -492,7 +641,9 @@ grid-column:1/3;
 }
 
 /* =====================================
+
 FORM BUTTONS
+
 ===================================== */
 
 .form-buttons{
@@ -560,7 +711,9 @@ background:#cbd5e1;
 }
 
 /* =====================================
+
 POPUP
+
 ===================================== */
 
 .popup-overlay{
@@ -640,7 +793,9 @@ margin-top:25px;
 }
 
 /* =====================================
+
 LOADING
+
 ===================================== */
 
 .loading-spinner{
@@ -662,7 +817,9 @@ color:#2563eb;
 }
 
 /* =====================================
+
 ANIMATION
+
 ===================================== */
 
 @keyframes fadeIn{
@@ -706,7 +863,9 @@ transform:scale(1);
 }
 
 /* =====================================
+
 RESPONSIVE
+
 ===================================== */
 
 @media(max-width:992px){
@@ -749,6 +908,26 @@ gap:15px;
 
 }
 
+/* Header buttons responsive */
+
+.installation-header-actions{
+
+width:100%;
+
+}
+
+.export-pdf-btn,
+
+.export-excel-btn,
+
+.add-btn{
+
+flex:1;
+
+min-width:140px;
+
+}
+
 .toolbar{
 
 flex-direction:column;
@@ -788,6 +967,7 @@ flex-direction:column;
 }
 
 .save-btn,
+
 .cancel-btn{
 
 width:100%;
@@ -822,38 +1002,22 @@ padding:18px;
 
 }
 
-}
-.installation-header-actions {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex-wrap: wrap;
+.installation-header-actions{
+
+flex-direction:column;
+
+align-items:stretch;
+
 }
 
 .export-pdf-btn,
-.export-excel-btn {
-  border: none;
-  padding: 10px 16px;
-  border-radius: 7px;
-  cursor: pointer;
-  font-size: 14px;
-  font-weight: 600;
-  transition: 0.2s ease;
+
+.export-excel-btn,
+
+.add-btn{
+
+width:100%;
+
 }
 
-.export-pdf-btn:hover,
-.export-excel-btn:hover {
-  transform: translateY(-2px);
-  opacity: 0.9;
-}
-
-@media (max-width: 768px) {
-  .installations-header {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .installation-header-actions {
-    width: 100%;
-  }
 }
