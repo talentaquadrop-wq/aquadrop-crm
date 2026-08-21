@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import { FaTools, FaClock } from "react-icons/fa";
 
 import "./TodayInstallations.css";
-import { getInstallations } from "../../services/InstallationService";
+
+import { getInstallations } from "../../services/installationService";
 
 const TodayInstallations = () => {
   const [installations, setInstallations] = useState([]);
@@ -16,67 +17,57 @@ const TodayInstallations = () => {
     try {
       setLoading(true);
 
-      const res = await getInstallations();
+      const response = await getInstallations();
 
-      if (res?.success && Array.isArray(res.data)) {
-        const today = new Date().toDateString();
+      if (response.success) {
+        const allInstallations = response.data || [];
 
-        const todayData = res.data
-          .filter((item) => {
-            const installationDate =
-              item.installationDate ||
-              item.date ||
-              item.scheduledDate ||
-              item.createdAt;
+        const today = new Date();
+
+        const todayInstallations = allInstallations.filter(
+          (installation) => {
+            const installationDate = new Date(
+              installation.installationDate ||
+                installation.createdAt
+            );
 
             return (
-              installationDate &&
-              new Date(installationDate).toDateString() === today
+              installationDate.getDate() === today.getDate() &&
+              installationDate.getMonth() === today.getMonth() &&
+              installationDate.getFullYear() === today.getFullYear()
             );
-          })
-          .slice(0, 5);
+          }
+        );
 
-        setInstallations(todayData);
-      } else {
-        setInstallations([]);
+        setInstallations(todayInstallations);
       }
     } catch (error) {
       console.error(
-        "Today's Installations Error:",
+        "Today Installations Error:",
         error
       );
-
       setInstallations([]);
     } finally {
       setLoading(false);
     }
   };
 
-  const formatTime = (item) => {
-    if (item.time) return item.time;
-    if (item.installationTime) return item.installationTime;
+  const formatTime = (date) => {
+    if (!date) return "Not scheduled";
 
-    const date =
-      item.installationDate ||
-      item.date ||
-      item.scheduledDate;
+    const formattedDate = new Date(date);
 
-    if (date) {
-      return new Date(date).toLocaleTimeString(
-        "en-IN",
-        {
-          hour: "2-digit",
-          minute: "2-digit",
-        }
-      );
-    }
-
-    return "-";
+    return formattedDate.toLocaleTimeString(
+      "en-IN",
+      {
+        hour: "2-digit",
+        minute: "2-digit",
+      }
+    );
   };
 
   return (
     <div className="today-installations">
-
       <div className="installations-card-header">
         <div>
           <h3>Today's Installations</h3>
@@ -89,36 +80,26 @@ const TodayInstallations = () => {
       </div>
 
       <div className="installations-list">
-
         {loading ? (
-
           <div className="installation-empty">
             Loading installations...
           </div>
-
         ) : installations.length === 0 ? (
-
           <div className="installation-empty">
             No installations scheduled for today
           </div>
-
         ) : (
-
-          installations.map((item, index) => (
-
+          installations.map((item) => (
             <div
               className="today-installation-row"
-              key={item._id || item.id || index}
+              key={item._id}
             >
-
               <div className="installation-main">
-
                 <div className="installation-icon">
                   <FaTools />
                 </div>
 
                 <div className="installation-details">
-
                   <h4>
                     {item.customer?.name ||
                       item.customerName ||
@@ -128,40 +109,39 @@ const TodayInstallations = () => {
                   <p>
                     {item.product?.name ||
                       item.productName ||
-                      item.product ||
-                      "-"}
+                      "Installation"}
                   </p>
-
                 </div>
-
               </div>
 
               <div className="installation-right">
-
                 <div className="installation-time">
                   <FaClock />
-                  <span>{formatTime(item)}</span>
+
+                  <span>
+                    {formatTime(
+                      item.installationDate ||
+                        item.scheduledDate ||
+                        item.createdAt
+                    )}
+                  </span>
                 </div>
 
                 <span
                   className={`installation-status ${
-                    (
-                      item.status || "Scheduled"
-                    ).toLowerCase()
+                    item.status
+                      ?.toLowerCase()
+                      .replace(/\s+/g, "-") ||
+                    "pending"
                   }`}
                 >
-                  {item.status || "Scheduled"}
+                  {item.status || "Pending"}
                 </span>
-
               </div>
-
             </div>
-
           ))
         )}
-
       </div>
-
     </div>
   );
 };
