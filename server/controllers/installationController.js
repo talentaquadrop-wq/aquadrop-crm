@@ -7,11 +7,15 @@ const createInstallation = async (req, res) => {
   try {
     const installation = await Installation.create(req.body);
 
-    res.status(201).json(installation);
+    res.status(201).json({
+      success: true,
+      data: installation,
+    });
 
   } catch (error) {
 
     res.status(500).json({
+      success: false,
       message: error.message,
     });
 
@@ -28,11 +32,15 @@ const getInstallations = async (req, res) => {
       createdAt: -1,
     });
 
-    res.status(200).json(installations);
+    res.status(200).json({
+      success: true,
+      data: installations,
+    });
 
   } catch (error) {
 
     res.status(500).json({
+      success: false,
       message: error.message,
     });
 
@@ -50,15 +58,20 @@ const getInstallationById = async (req, res) => {
 
     if (!installation) {
       return res.status(404).json({
+        success: false,
         message: "Installation not found",
       });
     }
 
-    res.status(200).json(installation);
+    res.status(200).json({
+      success: true,
+      data: installation,
+    });
 
   } catch (error) {
 
     res.status(500).json({
+      success: false,
       message: error.message,
     });
 
@@ -83,15 +96,20 @@ const updateInstallation = async (req, res) => {
 
     if (!installation) {
       return res.status(404).json({
+        success: false,
         message: "Installation not found",
       });
     }
 
-    res.status(200).json(installation);
+    res.status(200).json({
+      success: true,
+      data: installation,
+    });
 
   } catch (error) {
 
     res.status(500).json({
+      success: false,
       message: error.message,
     });
 
@@ -112,17 +130,20 @@ const deleteInstallation = async (req, res) => {
 
     if (!installation) {
       return res.status(404).json({
+        success: false,
         message: "Installation not found",
       });
     }
 
     res.status(200).json({
+      success: true,
       message: "Installation Deleted Successfully",
     });
 
   } catch (error) {
 
     res.status(500).json({
+      success: false,
       message: error.message,
     });
 

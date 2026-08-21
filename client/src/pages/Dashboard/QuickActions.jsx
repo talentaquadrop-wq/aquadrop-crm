@@ -1,87 +1,89 @@
 import React from "react";
-import "./QuickActions.css";
+import { useNavigate } from "react-router-dom";
+
 import {
+  FaPlus,
   FaUserPlus,
   FaUsers,
   FaTools,
-  FaClipboardList,
-  FaBoxes,
-  FaChartBar,
+  FaHeadset,
+  FaBoxOpen,
 } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+
+import "./QuickActions.css";
 
 const QuickActions = () => {
   const navigate = useNavigate();
 
   const actions = [
     {
-      title: "Add Lead",
+      title: "Add New Lead",
+      description: "Create a new sales lead",
       icon: <FaUserPlus />,
-      color: "#2563EB",
       path: "/leads",
+      className: "lead-action",
     },
     {
-      title: "Customers",
+      title: "Add Customer",
+      description: "Register a new customer",
       icon: <FaUsers />,
-      color: "#10B981",
       path: "/customers",
+      className: "customer-action",
     },
     {
-      title: "Installation",
+      title: "New Installation",
+      description: "Schedule an installation",
       icon: <FaTools />,
-      color: "#F59E0B",
       path: "/installations",
+      className: "installation-action",
     },
     {
-      title: "Services",
-      icon: <FaClipboardList />,
-      color: "#8B5CF6",
+      title: "Create Service",
+      description: "Add a service request",
+      icon: <FaHeadset />,
       path: "/services",
+      className: "service-action",
     },
     {
-      title: "Inventory",
-      icon: <FaBoxes />,
-      color: "#EF4444",
-      path: "/inventory",
-    },
-    {
-      title: "Reports",
-      icon: <FaChartBar />,
-      color: "#06B6D4",
-      path: "/reports",
+      title: "Add Product",
+      description: "Add inventory product",
+      icon: <FaBoxOpen />,
+      path: "/products",
+      className: "product-action",
     },
   ];
 
   return (
     <div className="quick-actions-card">
-
-      <h3>Quick Actions</h3>
-
-      <div className="quick-grid">
-
-        {actions.map((item, index) => (
-
-          <div
-            key={index}
-            className="quick-item"
-            onClick={() => navigate(item.path)}
-          >
-
-            <div
-              className="quick-icon"
-              style={{ background: item.color }}
-            >
-              {item.icon}
-            </div>
-
-            <h4>{item.title}</h4>
-
-          </div>
-
-        ))}
-
+      <div className="quick-actions-header">
+        <div>
+          <h3>Quick Actions</h3>
+          <p>Frequently used actions</p>
+        </div>
       </div>
 
+      <div className="quick-actions-list">
+        {actions.map((action) => (
+          <button
+            key={action.title}
+            className={`quick-action-item ${action.className}`}
+            onClick={() => navigate(action.path)}
+          >
+            <div className="quick-action-left">
+              <div className="quick-action-icon">
+                {action.icon}
+              </div>
+
+              <div className="quick-action-text">
+                <strong>{action.title}</strong>
+                <span>{action.description}</span>
+              </div>
+            </div>
+
+            <FaPlus className="quick-action-plus" />
+          </button>
+        ))}
+      </div>
     </div>
   );
 };

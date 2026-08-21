@@ -2,19 +2,19 @@ import React from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 
 import {
-  FaTachometerAlt,
+  FaHome,
   FaUserFriends,
   FaUsers,
-  FaTruck,
   FaTools,
-  FaClipboardList,
+  FaHeadset,
+  FaTruck,
   FaBoxOpen,
+  FaFileInvoiceDollar,
   FaChartBar,
+  FaPhoneAlt,
   FaCog,
   FaSignOutAlt,
-  FaUserTie,
-  FaFileInvoice,
-  FaPhoneAlt,
+  FaTint,
 } from "react-icons/fa";
 
 import "./Sidebar.css";
@@ -22,248 +22,215 @@ import "./Sidebar.css";
 const Sidebar = () => {
   const navigate = useNavigate();
 
-  const user = JSON.parse(
-    localStorage.getItem("user") || "null"
-  );
-
-  const role = user?.role || "";
-
-  // =========================================
-  // MENU ITEMS
-  // =========================================
-
-  const menuItems = [
-    {
-      name: "Dashboard",
-      path: "/dashboard",
-      icon: <FaTachometerAlt />,
-      roles: [
-        "Admin",
-        "Manager",
-        "Executive",
-        "Sales",
-        "Inventory",
-        "Dispatch",
-        "Service",
-      ],
-    },
-
-    {
-      name: "Leads",
-      path: "/leads",
-      icon: <FaUsers />,
-      roles: [
-        "Admin",
-        "Manager",
-        "Executive",
-        "Sales",
-      ],
-    },
-
-    {
-      name: "IVR Management",
-      path: "/ivr",
-      icon: <FaPhoneAlt />,
-      roles: [
-        "Admin",
-        "Manager",
-      ],
-    },
-
-    {
-      name: "Customers",
-      path: "/customers",
-      icon: <FaUserFriends />,
-      roles: [
-        "Admin",
-        "Manager",
-        "Executive",
-        "Sales",
-      ],
-    },
-
-    {
-      name: "Quotations",
-      path: "/quotations",
-      icon: <FaFileInvoice />,
-      roles: [
-        "Admin",
-        "Manager",
-        "Executive",
-        "Sales",
-      ],
-    },
-
-    {
-      name: "Inventory",
-      path: "/inventory",
-      icon: <FaBoxOpen />,
-      roles: [
-        "Admin",
-        "Inventory",
-      ],
-    },
-
-    {
-      name: "Dispatch",
-      path: "/dispatch",
-      icon: <FaTruck />,
-      roles: [
-        "Admin",
-        "Inventory",
-        "Dispatch",
-      ],
-    },
-
-    {
-      name: "Installations",
-      path: "/installations",
-      icon: <FaTools />,
-      roles: [
-        "Admin",
-        "Service",
-      ],
-    },
-
-    {
-      name: "Services",
-      path: "/services",
-      icon: <FaClipboardList />,
-      roles: [
-        "Admin",
-        "Service",
-      ],
-    },
-
-    {
-      name: "Employees",
-      path: "/employees",
-      icon: <FaUserTie />,
-      roles: [
-        "Admin",
-      ],
-    },
-
-    {
-      name: "Reports",
-      path: "/reports",
-      icon: <FaChartBar />,
-      roles: [
-        "Admin",
-      ],
-    },
-
-    {
-      name: "Settings",
-      path: "/settings",
-      icon: <FaCog />,
-      roles: [
-        "Admin",
-      ],
-    },
-  ];
-
-  // =========================================
-  // FILTER MENU BY ROLE
-  // =========================================
-
-  const filteredMenu = menuItems.filter((item) =>
-    item.roles.includes(role)
-  );
-
-  // =========================================
-  // LOGOUT
-  // =========================================
+  const user = JSON.parse(localStorage.getItem("user"));
 
   const handleLogout = () => {
-    const confirmLogout = window.confirm(
-      "Are you sure you want to logout?"
-    );
-
-    if (!confirmLogout) {
-      return;
-    }
-
     localStorage.removeItem("token");
     localStorage.removeItem("user");
 
     navigate("/login");
   };
 
-  // =========================================
-  // SIDEBAR
-  // =========================================
-
   return (
     <aside className="sidebar">
 
       {/* LOGO */}
-      <div className="sidebar-logo">
-        <div>
-          <h2>Aqua Drop</h2>
-          <span>CRM</span>
+      <div className="sidebar-top">
+
+        <div className="sidebar-logo">
+
+          <div className="logo-icon">
+            <FaTint />
+          </div>
+
+          <div className="logo-text">
+            <h2>Aqua Drop</h2>
+            <span>CRM SYSTEM</span>
+          </div>
+
         </div>
+
       </div>
 
-      {/* NAVIGATION */}
-      <nav className="sidebar-menu">
 
-        {filteredMenu.map((item) => (
+      {/* MENU */}
+      <div className="sidebar-menu">
+
+        {/* MAIN */}
+        <div className="menu-section">
+
+          <span className="menu-title">MAIN</span>
+
           <NavLink
-            key={item.name}
-            to={item.path}
-            className={({ isActive }) =>
-              isActive
-                ? "menu-item active"
-                : "menu-item"
-            }
+            to="/dashboard"
+            className="menu-item"
           >
-            <span className="menu-icon">
-              {item.icon}
-            </span>
-
-            <span>
-              {item.name}
-            </span>
-
+            <FaHome className="menu-icon" />
+            <span>Dashboard</span>
           </NavLink>
-        ))}
 
-      </nav>
+        </div>
 
-      {/* USER */}
+
+        {/* SALES */}
+        <div className="menu-section">
+
+          <span className="menu-title">SALES</span>
+
+          <NavLink
+            to="/leads"
+            className="menu-item"
+          >
+            <FaUserFriends className="menu-icon" />
+            <span>Leads</span>
+          </NavLink>
+
+          <NavLink
+            to="/customers"
+            className="menu-item"
+          >
+            <FaUsers className="menu-icon" />
+            <span>Customers</span>
+          </NavLink>
+
+          <NavLink
+            to="/quotations"
+            className="menu-item"
+          >
+            <FaFileInvoiceDollar className="menu-icon" />
+            <span>Quotations</span>
+          </NavLink>
+
+        </div>
+
+
+        {/* OPERATIONS */}
+        <div className="menu-section">
+
+          <span className="menu-title">OPERATIONS</span>
+
+          <NavLink
+            to="/installations"
+            className="menu-item"
+          >
+            <FaTools className="menu-icon" />
+            <span>Installations</span>
+          </NavLink>
+
+          <NavLink
+            to="/services"
+            className="menu-item"
+          >
+            <FaHeadset className="menu-icon" />
+            <span>Services</span>
+          </NavLink>
+
+          <NavLink
+            to="/dispatch"
+            className="menu-item"
+          >
+            <FaTruck className="menu-icon" />
+            <span>Dispatch</span>
+          </NavLink>
+
+        </div>
+
+
+        {/* INVENTORY */}
+        <div className="menu-section">
+
+          <span className="menu-title">INVENTORY</span>
+
+          <NavLink
+            to="/products"
+            className="menu-item"
+          >
+            <FaBoxOpen className="menu-icon" />
+            <span>Products</span>
+          </NavLink>
+
+        </div>
+
+
+        {/* MANAGEMENT */}
+        <div className="menu-section">
+
+          <span className="menu-title">MANAGEMENT</span>
+
+          <NavLink
+            to="/employees"
+            className="menu-item"
+          >
+            <FaUsers className="menu-icon" />
+            <span>Employees</span>
+          </NavLink>
+
+          <NavLink
+            to="/calls"
+            className="menu-item"
+          >
+            <FaPhoneAlt className="menu-icon" />
+            <span>Calls / IVR</span>
+          </NavLink>
+
+          <NavLink
+            to="/reports"
+            className="menu-item"
+          >
+            <FaChartBar className="menu-icon" />
+            <span>Reports</span>
+          </NavLink>
+
+        </div>
+
+
+        {/* SETTINGS */}
+        <div className="menu-section">
+
+          <span className="menu-title">SYSTEM</span>
+
+          <NavLink
+            to="/settings"
+            className="menu-item"
+          >
+            <FaCog className="menu-icon" />
+            <span>Settings</span>
+          </NavLink>
+
+        </div>
+
+      </div>
+
+
+      {/* USER + LOGOUT */}
       <div className="sidebar-footer">
 
-        <div className="admin-avatar">
-          {user?.name
-            ? user.name.charAt(0).toUpperCase()
-            : "A"}
+        <div className="sidebar-user">
+
+          <div className="admin-avatar">
+            {(user?.name || "A").charAt(0).toUpperCase()}
+          </div>
+
+          <div className="admin-details">
+            <h4>{user?.name || "Admin"}</h4>
+
+            <p>
+              {user?.role || "Administrator"}
+            </p>
+          </div>
+
         </div>
 
-        <div>
-          <h4>
-            {user?.name || "Guest"}
-          </h4>
+        <button
+          className="logout-btn"
+          onClick={handleLogout}
+        >
+          <FaSignOutAlt />
 
-          <p>
-            {user?.role || "User"}
-          </p>
-        </div>
+          <span>Logout</span>
+        </button>
 
       </div>
-
-      {/* LOGOUT */}
-      <button
-        type="button"
-        className="logout-btn"
-        onClick={handleLogout}
-      >
-        <FaSignOutAlt />
-
-        <span>
-          Logout
-        </span>
-      </button>
 
     </aside>
   );

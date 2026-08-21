@@ -56,7 +56,7 @@ export default function Installations() {
 
       const res = await getInstallations();
 
-      setInstallations(res.data || []);
+      setInstallations(res.data?.data || res.data || []);
 
     } catch (error) {
       console.error(error);

@@ -7,8 +7,11 @@ import Charts from "./Charts";
 import QuickActions from "./QuickActions";
 import RecentActivities from "./RecentActivities";
 import TodayInstallations from "./TodayInstallations";
-import RevenueCard from "./RevenueCard";
 import LowStock from "./LowStock";
+import RecentCustomers from "./RecentCustomers";
+import RevenueCard from "./RevenueCard";
+
+import api from "../../services/api";
 
 import {
   FaUsers,
@@ -16,10 +19,8 @@ import {
   FaTools,
   FaClock,
   FaCheckCircle,
-  FaBoxOpen,
+  FaRupeeSign,
 } from "react-icons/fa";
-
-import { getDashboardStats } from "../../services/dashboardService";
 
 const Dashboard = () => {
   const [stats, setStats] = useState({
@@ -28,58 +29,68 @@ const Dashboard = () => {
     totalInstallations: 0,
     pendingServices: 0,
     completedServices: 0,
-    totalProducts: 0,
-    lowStockProducts: [],
-    recentLeads: [],
-    recentCustomers: [],
-    recentInstallations: [],
-    recentServices: [],
   });
 
   const [loading, setLoading] = useState(true);
 
-  const fetchDashboard = async () => {
-    try {
-      const res = await getDashboardStats();
+  useEffect(() => {
+    fetchDashboardStats();
+  }, []);
 
-      if (res.success) {
-        setStats(res.data);
+  const fetchDashboardStats = async () => {
+    try {
+      setLoading(true);
+
+      // Same API connection used by Leads page
+      const response = await api.get("/dashboard");
+
+      console.log("Dashboard Response:", response.data);
+
+      if (response.data.success) {
+        const data = response.data.data;
+
+        setStats({
+          totalLeads: data.totalLeads ?? 0,
+          totalCustomers: data.totalCustomers ?? 0,
+          totalInstallations: data.totalInstallations ?? 0,
+          pendingServices: data.pendingServices ?? 0,
+          completedServices: data.completedServices ?? 0,
+        });
       }
     } catch (error) {
-      console.log("Dashboard error:", error);
+      console.error(
+        "Dashboard Stats Error:",
+        error.response?.data || error.message
+      );
     } finally {
       setLoading(false);
     }
   };
 
-  useEffect(() => {
-    fetchDashboard();
-  }, []);
-
   return (
     <div className="dashboard-page">
 
-      {/* =========================
-          Welcome
-      ========================== */}
+      <div className="dashboard-page-header">
+        <div>
+          <h1>Dashboard</h1>
+          <p>Overview of your Aqua Drop business operations.</p>
+        </div>
 
-      <WelcomeSection
-        pendingServices={stats.pendingServices}
-        installations={stats.totalInstallations}
-        lowStock={stats.lowStockProducts?.length || 0}
-        totalLeads={stats.totalLeads}
-      />
+        <div className="dashboard-date">
+          Today
+        </div>
+      </div>
 
-      {/* =========================
-          KPI CARDS
-      ========================== */}
+      <WelcomeSection />
 
-      <div className="stats-grid">
+      {/* STATISTICS */}
+
+      <section className="stats-grid">
 
         <StatCard
           title="Total Leads"
           value={loading ? "..." : stats.totalLeads}
-          growth="+0%"
+          growth="Live"
           icon={<FaUsers />}
           color="#2563EB"
         />
@@ -87,70 +98,113 @@ const Dashboard = () => {
         <StatCard
           title="Customers"
           value={loading ? "..." : stats.totalCustomers}
-          growth="+0%"
+          growth="Live"
           icon={<FaUserFriends />}
-          color="#10B981"
+          color="#059669"
         />
 
         <StatCard
           title="Installations"
           value={loading ? "..." : stats.totalInstallations}
-          growth="+0%"
+          growth="Live"
           icon={<FaTools />}
-          color="#8B5CF6"
+          color="#7C3AED"
         />
 
         <StatCard
           title="Pending Services"
           value={loading ? "..." : stats.pendingServices}
-          growth="+0%"
+          growth="Live"
           icon={<FaClock />}
-          color="#F59E0B"
+          color="#D97706"
         />
 
         <StatCard
           title="Completed Services"
           value={loading ? "..." : stats.completedServices}
-          growth="+0%"
+          growth="Live"
           icon={<FaCheckCircle />}
           color="#16A34A"
         />
 
         <StatCard
-          title="Products"
-          value={loading ? "..." : stats.totalProducts}
-          growth="+0%"
-          icon={<FaBoxOpen />}
-          color="#EF4444"
+          title="Revenue"
+          value="₹0"
+          growth="Live"
+          icon={<FaRupeeSign />}
+          color="#DC2626"
         />
 
-      </div>
+      </section>
 
-      {/* =========================
-          CHARTS
-      ========================== */}
+      {/* BUSINESS OVERVIEW */}
 
-      <Charts />
+      <section className="dashboard-section">
+        <div className="section-heading">
+          <div>
+            <h2>Business Overview</h2>
+            <p>Sales and business performance summary</p>
+          </div>
+        </div>
 
-      {/* =========================
-          QUICK ACTIONS
-      ========================== */}
+        <div className="dashboard-charts">
+          <Charts />
+        </div>
+      </section>
 
-      <QuickActions />
+      {/* QUICK ACTIONS */}
 
-      {/* =========================
-          RECENT DATA
-      ========================== */}
+      <section className="dashboard-section">
+        <div className="section-heading">
+          <div>
+            <h2>Quick Actions</h2>
+            <p>Frequently used actions</p>
+          </div>
+        </div>
 
-      <div className="bottom-grid">
-        <RecentActivities />
-        <TodayInstallations />
-      </div>
+        <QuickActions />
+      </section>
 
-      <div className="bottom-grid">
-        <RevenueCard />
-        <LowStock />
-      </div>
+      {/* TODAY'S OPERATIONS */}
+
+      <section className="dashboard-section">
+        <div className="section-heading">
+          <div>
+            <h2>Today's Operations</h2>
+            <p>Activities that need your attention</p>
+          </div>
+        </div>
+
+        <div className="bottom-grid">
+
+          <div className="dashboard-panel">
+            <RecentActivities />
+          </div>
+
+          <div className="dashboard-panel">
+            <TodayInstallations />
+          </div>
+
+          <div className="dashboard-panel">
+            <LowStock />
+          </div>
+
+        </div>
+      </section>
+
+      {/* CUSTOMERS + REVENUE */}
+
+      <section className="dashboard-lower-grid">
+
+        <div className="dashboard-panel">
+          <RecentCustomers />
+        </div>
+
+        <div className="dashboard-panel">
+          <RevenueCard />
+        </div>
+
+      </section>
 
     </div>
   );

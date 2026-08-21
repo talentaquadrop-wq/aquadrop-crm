@@ -1,84 +1,168 @@
 import React, { useEffect, useState } from "react";
-import { getDashboardStats } from "../../services/dashboardService";
+import {
+  FaBoxOpen,
+  FaExclamationTriangle,
+} from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
-export default function LowStock() {
+import "./LowStock.css";
+
+import { getProducts } from "../../services/productService";
+
+const LowStock = () => {
+  const navigate = useNavigate();
 
   const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const fetchProducts = async () => {
+  useEffect(() => {
+    fetchLowStockProducts();
+  }, []);
+
+  const fetchLowStockProducts = async () => {
     try {
+      setLoading(true);
 
-      const res = await getDashboardStats();
+      const res = await getProducts();
 
-      console.log("Dashboard Response:", res);
+      const allProducts =
+        res.data?.data || res.data || [];
 
-      if (res.success) {
-        setProducts(res.data?.lowStockProducts || []);
-      } else {
-        setProducts([]);
-      }
+      const lowStockProducts = allProducts
+        .filter(
+          (product) =>
+            product.status === "Low Stock" ||
+            product.status === "Out of Stock" ||
+            Number(product.quantity) <= 10
+        )
+        .sort(
+          (a, b) =>
+            Number(a.quantity) -
+            Number(b.quantity)
+        )
+        .slice(0, 4);
 
+      setProducts(lowStockProducts);
     } catch (error) {
-      console.log(error);
+      console.error(
+        "Low Stock Error:",
+        error
+      );
+
       setProducts([]);
+    } finally {
+      setLoading(false);
     }
   };
 
-  useEffect(() => {
-    fetchProducts();
-  }, []);
+  const getStatus = (product) => {
+    if (
+      product.status === "Out of Stock" ||
+      Number(product.quantity) === 0
+    ) {
+      return "Critical";
+    }
+
+    return "Low Stock";
+  };
 
   return (
-    <div className="dashboard-box">
+    <div className="low-stock">
 
-      <div className="box-header">
-        <h3>Low Stock</h3>
-        <span>{products?.length || 0}</span>
-      </div>
+      <div className="low-stock-header">
 
-      {products.length === 0 ? (
-
-        <div
-          style={{
-            padding: 30,
-            textAlign: "center",
-            color: "#888",
-          }}
-        >
-          No Low Stock Products
+        <div>
+          <h3>Low Stock</h3>
+          <p>Products that need attention</p>
         </div>
 
-      ) : (
+        <div className="stock-warning">
+          <FaExclamationTriangle />
+        </div>
 
-        products.map((item) => (
+      </div>
 
-          <div
-            className="activity-card"
-            key={item._id}
-          >
-            <div className="activity-left">
+      <div className="stock-list">
 
-              <div className="activity-icon">
-                📦
-              </div>
+        {loading ? (
 
-              <div>
-                <h4>{item.productName || item.name}</h4>
-
-                <p>
-                  Qty : {item.quantity}
-                </p>
-
-              </div>
-
-            </div>
-
+          <div className="stock-empty">
+            Loading products...
           </div>
 
-        ))
+        ) : products.length === 0 ? (
 
-      )}
+          <div className="stock-empty">
+            All products are sufficiently stocked
+          </div>
+
+        ) : (
+
+          products.map((product, index) => {
+
+            const status =
+              getStatus(product);
+
+            return (
+              <div
+                className="stock-row"
+                key={
+                  product._id ||
+                  product.id ||
+                  index
+                }
+              >
+
+                <div className="stock-product">
+
+                  <div className="stock-icon">
+                    <FaBoxOpen />
+                  </div>
+
+                  <div className="stock-details">
+
+                    <h4>
+                      {product.productName}
+                    </h4>
+
+                    <p>
+                      Available:{" "}
+                      {product.quantity || 0} Units
+                    </p>
+
+                  </div>
+
+                </div>
+
+                <span
+                  className={`stock-status ${
+                    status === "Critical"
+                      ? "critical"
+                      : "low-stock-status"
+                  }`}
+                >
+                  {status}
+                </span>
+
+              </div>
+            );
+          })
+
+        )}
+
+      </div>
+
+      <button
+        className="view-products-btn"
+        onClick={() =>
+          navigate("/inventory")
+        }
+      >
+        View Products
+      </button>
 
     </div>
   );
-}
+};
+
+export default LowStock;

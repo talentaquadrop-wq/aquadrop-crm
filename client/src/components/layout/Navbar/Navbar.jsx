@@ -1,186 +1,108 @@
-import "./Navbar.css";
+import React from "react";
+import { useNavigate } from "react-router-dom";
 
 import {
-  useNavigate,
-  useLocation,
-} from "react-router-dom";
-
-import {
-  FaSearch,
   FaBell,
-  FaMoon,
-  FaBars,
+  FaSearch,
+  FaPlus,
+  FaChevronDown,
 } from "react-icons/fa";
 
+import "./Navbar.css";
 
 function Navbar() {
-
   const navigate = useNavigate();
-  const location = useLocation();
 
   const user = JSON.parse(
-    localStorage.getItem("user") || "null"
+    localStorage.getItem("user")
   );
 
+  const userName =
+    user?.name || "Admin";
 
-  // =========================
-  // PAGE TITLES
-  // =========================
-
-  const titles = {
-    "/dashboard": "Dashboard",
-    "/leads": "Leads",
-    "/customers": "Customers",
-    "/quotations": "Quotations",
-    "/installations": "Installations",
-    "/services": "Services",
-    "/inventory": "Inventory",
-    "/dispatch": "Dispatch",
-    "/employees": "Employees",
-    "/reports": "Reports",
-    "/settings": "Settings",
-  };
-
-
-  const pageTitle =
-    titles[location.pathname] || "Aqua Drop CRM";
-
-
-  // =========================
-  // LOGOUT
-  // =========================
+  const userRole =
+    user?.role || "Administrator";
 
   const handleLogout = () => {
-
     localStorage.removeItem("token");
     localStorage.removeItem("user");
 
     navigate("/login");
   };
 
-
-  // =========================
-  // NAVBAR
-  // =========================
-
   return (
+    <header className="top-navbar">
 
-    <header className="crm-navbar">
-
-      {/* =========================
-          LEFT
-      ========================== */}
-
+      {/* LEFT SIDE */}
       <div className="navbar-left">
 
-        <button
-          type="button"
-          className="menu-toggle"
-          aria-label="Menu"
-        >
-          <FaBars />
-        </button>
+        <div className="navbar-search">
 
+          <FaSearch className="search-icon" />
 
-        <div className="navbar-title">
-
-          <h2>{pageTitle}</h2>
-
-          <span>
-            Welcome back 👋
-          </span>
+          <input
+            type="text"
+            placeholder="Search..."
+          />
 
         </div>
 
       </div>
 
 
-      {/* =========================
-          SEARCH
-      ========================== */}
-
-      <div className="navbar-search">
-
-        <FaSearch className="search-icon" />
-
-        <input
-          type="text"
-          placeholder="Search customers, leads, products..."
-        />
-
-      </div>
-
-
-      {/* =========================
-          RIGHT
-      ========================== */}
-
+      {/* RIGHT SIDE */}
       <div className="navbar-right">
 
-
-        {/* Dark Mode */}
-
-        <button
-          type="button"
-          className="icon-box"
-          aria-label="Toggle theme"
-        >
-          <FaMoon />
+        {/* QUICK ACTION */}
+        <button className="quick-action-btn">
+          <FaPlus />
+          <span>Quick Action</span>
+          <FaChevronDown className="dropdown-icon" />
         </button>
 
 
-        {/* Notifications */}
-
+        {/* NOTIFICATION */}
         <button
-          type="button"
-          className="icon-box notification-btn"
-          aria-label="Notifications"
+          className="navbar-icon-btn"
+          title="Notifications"
         >
-
           <FaBell />
 
-          <span className="badge">
-            3
+          <span className="notification-dot">
+            0
           </span>
-
         </button>
 
 
-        {/* Profile */}
+        {/* USER */}
+        <div className="navbar-user">
 
-        <div className="profile">
+          <div className="navbar-avatar">
+            {userName
+              .charAt(0)
+              .toUpperCase()}
+          </div>
 
-          <div className="avatar">
+          <div className="navbar-user-info">
 
-            {user?.name
-              ? user.name
-                  .charAt(0)
-                  .toUpperCase()
-              : "A"}
+            <strong>
+              {userName}
+            </strong>
+
+            <span>
+              {userRole}
+            </span>
 
           </div>
 
-
-          <div className="profile-info">
-
-            <h4>
-              {user?.name || "Administrator"}
-            </h4>
-
-            <p>
-              {user?.role || "Admin"}
-            </p>
-
-          </div>
+          <FaChevronDown className="user-arrow" />
 
         </div>
 
 
-        {/* Logout */}
-
+        {/* LOGOUT */}
         <button
-          type="button"
-          className="logout-btn-nav"
+          className="navbar-logout"
           onClick={handleLogout}
         >
           Logout
@@ -191,6 +113,5 @@ function Navbar() {
     </header>
   );
 }
-
 
 export default Navbar;

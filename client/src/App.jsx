@@ -28,7 +28,7 @@ import Employees from "./pages/Employees/Employees";
 import Quotations from "./pages/Quotations/Quotations";
 
 // ===============================
-// IVR PAGE
+// CALLS / IVR PAGE
 // ===============================
 
 import IVR from "./pages/IVR/IVR";
@@ -48,7 +48,6 @@ import ProtectedRoute from "./components/auth/ProtectedRoute";
 function App() {
   return (
     <BrowserRouter>
-
       <Routes>
 
         {/* =================================
@@ -142,11 +141,11 @@ function App() {
           />
 
           {/* =================================
-              IVR MANAGEMENT
+              CALLS / IVR MANAGEMENT
           ================================= */}
 
           <Route
-            path="/ivr"
+            path="/calls"
             element={<IVR />}
           />
 

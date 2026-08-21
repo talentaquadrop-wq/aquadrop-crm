@@ -1,31 +1,149 @@
-.stat-card{
-  display:flex;
-  align-items:center;
-  gap:15px;
-  padding:20px;
-  background:#fff;
-  border-radius:12px;
+/* =====================================
+   STAT CARD
+===================================== */
+
+.stat-card {
+  background: #ffffff;
+
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+
+  min-height: 128px;
+
+  padding: 20px;
+
+  display: flex;
+  align-items: flex-start;
+
+  gap: 16px;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
-.stat-icon{
-  width:50px;
-  height:50px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  border-radius:10px;
-  color:#fff;
+.stat-card:hover {
+  border-color: #d1d5db;
+
+  box-shadow:
+    0 4px 12px rgba(15, 23, 42, 0.06);
 }
 
-.stat-content h4{
-  margin:0;
+
+/* =====================================
+   ICON
+===================================== */
+
+.stat-card-icon {
+  width: 44px;
+  height: 44px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  border-radius: 7px;
+
+  font-size: 19px;
 }
 
-.stat-content h2{
-  margin:5px 0;
+
+/* =====================================
+   CONTENT
+===================================== */
+
+.stat-card-content {
+  min-width: 0;
 }
 
-.stat-content p{
-  margin:0;
-  color:green;
+.stat-card-title {
+  margin: 0 0 7px;
+
+  font-size: 13px;
+  font-weight: 500;
+
+  color: #6b7280;
+}
+
+.stat-card-value {
+  margin: 0;
+
+  font-size: 26px;
+  line-height: 1.1;
+
+  font-weight: 700;
+
+  color: #1f2937;
+}
+
+
+/* =====================================
+   GROWTH
+===================================== */
+
+.stat-card-growth {
+  display: flex;
+  align-items: center;
+
+  gap: 5px;
+
+  margin-top: 9px;
+
+  font-size: 11px;
+
+  color: #6b7280;
+}
+
+.growth-arrow {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  width: 17px;
+  height: 17px;
+
+  background: #ecfdf5;
+
+  color: #16a34a;
+
+  border-radius: 50%;
+
+  font-size: 11px;
+  font-weight: 700;
+}
+
+
+/* =====================================
+   RESPONSIVE
+===================================== */
+
+@media (max-width: 768px) {
+
+  .stat-card {
+    min-height: 110px;
+    padding: 17px;
+  }
+
+  .stat-card-value {
+    font-size: 24px;
+  }
+
+}
+
+@media (max-width: 480px) {
+
+  .stat-card {
+    gap: 13px;
+  }
+
+  .stat-card-icon {
+    width: 40px;
+    height: 40px;
+
+    font-size: 17px;
+  }
+
 }

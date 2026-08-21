@@ -45,10 +45,12 @@ exports.login = async (req, res) => {
       });
     }
 
+    const loginNormalized = login.trim().toLowerCase();
+
     const user = await User.findOne({
       $or: [
-        { email: login.toLowerCase() },
-        { username: login }
+        { email: loginNormalized },
+        { username: loginNormalized }
       ],
     });
 

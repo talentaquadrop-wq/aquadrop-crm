@@ -1,165 +1,169 @@
 import React, { useEffect, useState } from "react";
-import { getDashboardStats } from "../../services/dashboardService";
+import { FaTools, FaClock } from "react-icons/fa";
 
-export default function TodayInstallations() {
+import "./TodayInstallations.css";
+import { getInstallations } from "../../services/InstallationService";
 
+const TodayInstallations = () => {
   const [installations, setInstallations] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const fetchInstallations = async () => {
-
-    try {
-
-      const res = await getDashboardStats();
-
-      if (res.success) {
-
-        const today = new Date().toDateString();
-
-        const list = (res.data.recentInstallations || []).filter(
-          (item) =>
-            new Date(item.installationDate).toDateString() === today
-        );
-
-        setInstallations(list);
-
-      }
-
-    } catch (error) {
-
-      console.log(error);
-
-    } finally {
-
-      setLoading(false);
-
-    }
-
-  };
-
   useEffect(() => {
-
-    fetchInstallations();
-
+    fetchTodayInstallations();
   }, []);
 
+  const fetchTodayInstallations = async () => {
+    try {
+      setLoading(true);
+
+      const res = await getInstallations();
+
+      if (res?.success && Array.isArray(res.data)) {
+        const today = new Date().toDateString();
+
+        const todayData = res.data
+          .filter((item) => {
+            const installationDate =
+              item.installationDate ||
+              item.date ||
+              item.scheduledDate ||
+              item.createdAt;
+
+            return (
+              installationDate &&
+              new Date(installationDate).toDateString() === today
+            );
+          })
+          .slice(0, 5);
+
+        setInstallations(todayData);
+      } else {
+        setInstallations([]);
+      }
+    } catch (error) {
+      console.error(
+        "Today's Installations Error:",
+        error
+      );
+
+      setInstallations([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const formatTime = (item) => {
+    if (item.time) return item.time;
+    if (item.installationTime) return item.installationTime;
+
+    const date =
+      item.installationDate ||
+      item.date ||
+      item.scheduledDate;
+
+    if (date) {
+      return new Date(date).toLocaleTimeString(
+        "en-IN",
+        {
+          hour: "2-digit",
+          minute: "2-digit",
+        }
+      );
+    }
+
+    return "-";
+  };
+
   return (
+    <div className="today-installations">
 
-    <div className="dashboard-box">
+      <div className="installations-card-header">
+        <div>
+          <h3>Today's Installations</h3>
+          <p>Scheduled installation activities</p>
+        </div>
 
-      <div className="box-header">
+        <span className="installation-count">
+          {loading ? "..." : installations.length}
+        </span>
+      </div>
 
-        <h3>🔧 Today's Installations</h3>
+      <div className="installations-list">
 
-        <span>{installations.length}</span>
+        {loading ? (
+
+          <div className="installation-empty">
+            Loading installations...
+          </div>
+
+        ) : installations.length === 0 ? (
+
+          <div className="installation-empty">
+            No installations scheduled for today
+          </div>
+
+        ) : (
+
+          installations.map((item, index) => (
+
+            <div
+              className="today-installation-row"
+              key={item._id || item.id || index}
+            >
+
+              <div className="installation-main">
+
+                <div className="installation-icon">
+                  <FaTools />
+                </div>
+
+                <div className="installation-details">
+
+                  <h4>
+                    {item.customer?.name ||
+                      item.customerName ||
+                      "Unknown Customer"}
+                  </h4>
+
+                  <p>
+                    {item.product?.name ||
+                      item.productName ||
+                      item.product ||
+                      "-"}
+                  </p>
+
+                </div>
+
+              </div>
+
+              <div className="installation-right">
+
+                <div className="installation-time">
+                  <FaClock />
+                  <span>{formatTime(item)}</span>
+                </div>
+
+                <span
+                  className={`installation-status ${
+                    (
+                      item.status || "Scheduled"
+                    ).toLowerCase()
+                  }`}
+                >
+                  {item.status || "Scheduled"}
+                </span>
+
+              </div>
+
+            </div>
+
+          ))
+        )}
 
       </div>
 
-      {loading ? (
-
-        <div
-          style={{
-            padding: "35px",
-            textAlign: "center",
-            color: "#64748b",
-          }}
-        >
-          Loading...
-        </div>
-
-      ) : installations.length === 0 ? (
-
-        <div
-          style={{
-            padding: "35px",
-            textAlign: "center",
-            color: "#64748b",
-          }}
-        >
-          🔧
-          <br />
-          <br />
-          No Installations Scheduled Today
-        </div>
-
-      ) : (
-
-        installations.map((item) => (
-
-          <div
-            className="activity-card"
-            key={item._id}
-          >
-
-            <div className="activity-left">
-
-              <div
-                className="activity-icon"
-                style={{
-                  background: "#8B5CF6",
-                }}
-              >
-                🔧
-              </div>
-
-              <div>
-
-                <h4>{item.customer}</h4>
-
-                <p
-                  style={{
-                    fontSize: "13px",
-                    color: "#64748b",
-                    marginTop: "4px",
-                  }}
-                >
-                  Technician : {item.technician}
-                </p>
-
-              </div>
-
-            </div>
-
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "flex-end",
-                gap: "6px",
-              }}
-            >
-
-              <span className="time-badge">
-
-                {new Date(
-                  item.installationDate
-                ).toLocaleDateString()}
-
-              </span>
-
-              <span
-                style={{
-                  background: "#DCFCE7",
-                  color: "#166534",
-                  padding: "4px 10px",
-                  borderRadius: "20px",
-                  fontSize: "12px",
-                  fontWeight: "600",
-                }}
-              >
-                Scheduled
-              </span>
-
-            </div>
-
-          </div>
-
-        ))
-
-      )}
-
     </div>
-
   );
+};
 
-}
+export default TodayInstallations;

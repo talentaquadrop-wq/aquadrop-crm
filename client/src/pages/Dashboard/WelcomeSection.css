@@ -3,313 +3,374 @@
 ==================================== */
 
 .welcome-container {
-    background: linear-gradient(
-        135deg,
-        #2563EB,
-        #1D4ED8,
-        #0EA5E9
-    );
+  width: 100%;
+  box-sizing: border-box;
 
-    border-radius: 24px;
-    padding: 35px;
+  background: linear-gradient(
+    135deg,
+    #2563eb,
+    #1d4ed8,
+    #0ea5e9
+  );
 
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  border-radius: 16px;
 
-    box-shadow: 0 15px 35px rgba(37, 99, 235, 0.25);
+  padding: 32px;
 
-    margin-bottom: 30px;
+  display: grid;
 
-    overflow: hidden;
-    position: relative;
+  grid-template-columns:
+    minmax(0, 1fr)
+    230px;
 
-    min-height: 420px;
-    box-sizing: border-box;
+  gap: 32px;
+
+  align-items: center;
+
+  box-shadow: 0 12px 30px rgba(37, 99, 235, 0.2);
+
+  margin-bottom: 30px;
+
+  overflow: hidden;
+  position: relative;
 }
 
-/* Decorative circles */
+
+/* ====================================
+   DECORATIVE CIRCLES
+==================================== */
 
 .welcome-container::before {
-    content: "";
+  content: "";
 
-    position: absolute;
+  position: absolute;
 
-    width: 260px;
-    height: 260px;
+  width: 260px;
+  height: 260px;
 
-    background: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.08);
 
-    border-radius: 50%;
+  border-radius: 50%;
 
-    top: -90px;
-    right: -70px;
+  top: -90px;
+  right: -70px;
 }
 
 .welcome-container::after {
-    content: "";
+  content: "";
 
-    position: absolute;
+  position: absolute;
 
-    width: 180px;
-    height: 180px;
+  width: 180px;
+  height: 180px;
 
-    background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.05);
 
-    border-radius: 50%;
+  border-radius: 50%;
 
-    bottom: -60px;
-    left: -60px;
+  bottom: -60px;
+  left: -60px;
 }
+
 
 /* ====================================
    LEFT CONTENT
 ==================================== */
 
 .welcome-left {
-    position: relative;
+  position: relative;
+  z-index: 2;
 
-    z-index: 2;
-
-    max-width: 68%;
+  width: 100%;
+  min-width: 0;
 }
 
 .welcome-tag {
-    display: inline-block;
+  display: inline-flex;
+  align-items: center;
 
-    background: rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.15);
 
-    color: white;
+  color: #ffffff;
 
-    padding: 8px 16px;
+  padding: 8px 16px;
 
-    border-radius: 30px;
+  border-radius: 20px;
 
-    font-size: 13px;
+  font-size: 13px;
+  font-weight: 500;
 
-    margin-bottom: 18px;
+  margin-bottom: 18px;
 
-    backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
 }
 
 .welcome-left h1 {
-    color: white;
+  color: #ffffff;
 
-    font-size: 38px;
+  font-size: 36px;
+  line-height: 1.2;
 
-    line-height: 1.2;
+  margin: 0;
 
-    margin: 0;
-
-    font-weight: 800;
+  font-weight: 750;
 }
 
 .welcome-left p {
-    color: #E2E8F0;
+  color: #e2e8f0;
 
-    margin-top: 12px;
+  margin: 12px 0 0;
 
-    font-size: 16px;
-
-    line-height: 1.7;
+  font-size: 16px;
+  line-height: 1.6;
 }
+
 
 /* ====================================
    TODAY INFO
 ==================================== */
 
 .today-info {
-    display: flex;
+  display: flex;
+  align-items: center;
 
-    gap: 30px;
+  gap: 28px;
 
-    margin-top: 20px;
+  margin-top: 22px;
 
-    color: white;
+  color: #ffffff;
 
-    flex-wrap: wrap;
+  flex-wrap: wrap;
 }
 
 .today-info div {
-    display: flex;
+  display: flex;
+  align-items: center;
 
-    align-items: center;
+  gap: 8px;
 
-    gap: 8px;
-
-    font-size: 14px;
-
-    font-weight: 500;
+  font-size: 14px;
+  font-weight: 500;
 }
+
 
 /* ====================================
    SUMMARY CARDS
 ==================================== */
 
 .summary-row {
-    display: flex;
+  display: grid;
 
-    gap: 18px;
+  grid-template-columns:
+    repeat(4, minmax(0, 1fr));
 
-    margin-top: 28px;
+  gap: 14px;
 
-    flex-wrap: wrap;
+  margin-top: 28px;
+
+  width: 100%;
 }
 
 .summary-box {
-    background: rgba(255, 255, 255, 0.15);
+  min-width: 0;
 
-    backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.14);
 
-    border: 1px solid rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(12px);
 
-    border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
 
-    padding: 18px 24px;
+  border-radius: 12px;
 
-    min-width: 150px;
+  padding: 16px;
 
-    transition: 0.3s;
+  transition: 0.25s ease;
+
+  box-sizing: border-box;
 }
 
 .summary-box:hover {
-    transform: translateY(-6px);
+  transform: translateY(-3px);
 
-    background: rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.20);
 }
 
 .summary-box h3 {
-    color: #fff;
+  color: #ffffff;
 
-    font-size: 28px;
+  font-size: 24px;
 
-    margin: 0;
+  margin: 0;
 
-    font-weight: 800;
+  font-weight: 700;
 }
 
 .summary-box p {
-    margin-top: 8px;
+  margin: 5px 0 0;
 
-    color: #E2E8F0;
+  color: #dbeafe;
 
-    font-size: 14px;
+  font-size: 12px;
+
+  line-height: 1.4;
 }
+
 
 /* ====================================
    QUICK ACTIONS
 ==================================== */
 
 .quick-actions {
-    display: flex;
+  position: relative;
+  z-index: 2;
 
-    flex-direction: column;
+  width: 100%;
 
-    gap: 15px;
+  display: flex;
+  flex-direction: column;
 
-    position: relative;
+  gap: 12px;
 
-    z-index: 2;
-
-    min-width: 210px;
+  justify-content: center;
 }
 
 .quick-actions h3 {
-    color: white;
+  color: #ffffff;
 
-    margin: 0 0 5px;
+  margin: 0 0 8px;
 
-    font-size: 20px;
+  font-size: 20px;
+  font-weight: 700;
 }
 
 .quick-actions button {
-    width: 210px;
+  width: 100%;
 
-    background: white;
+  background: #ffffff;
 
-    color: #2563EB;
+  color: #2563eb;
 
-    border: none;
+  border: none;
 
-    border-radius: 14px;
+  border-radius: 12px;
 
-    padding: 14px 18px;
+  padding: 14px 18px;
 
-    display: flex;
+  display: flex;
 
-    align-items: center;
+  align-items: center;
 
-    gap: 12px;
+  gap: 12px;
 
-    font-size: 15px;
+  font-size: 15px;
 
-    font-weight: 600;
+  font-weight: 600;
 
-    cursor: pointer;
+  cursor: pointer;
 
-    transition: 0.3s;
+  transition: 0.25s ease;
 
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 5px 14px rgba(0, 0, 0, 0.1);
 }
 
 .quick-actions button:hover {
-    transform: translateX(8px);
+  transform: translateX(4px);
 
-    background: #F8FAFC;
+  background: #f8fafc;
 }
+
 
 /* ====================================
    RESPONSIVE
 ==================================== */
 
+@media (max-width: 1350px) {
+
+  .welcome-container {
+    grid-template-columns:
+      minmax(0, 1fr)
+      210px;
+  }
+
+  .summary-row {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+}
+
+
 @media (max-width: 1100px) {
 
-    .welcome-container {
-        flex-direction: column;
+  .welcome-container {
+    grid-template-columns: 1fr;
 
-        align-items: flex-start;
+    gap: 28px;
+  }
 
-        gap: 30px;
+  .quick-actions {
+    display: grid;
 
-        min-height: auto;
-    }
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
 
-    .welcome-left {
-        max-width: 100%;
-    }
+    gap: 12px;
+  }
 
-    .quick-actions {
-        width: 100%;
-    }
+  .quick-actions h3 {
+    grid-column: 1 / -1;
+  }
 
-    .quick-actions button {
-        width: 100%;
-    }
 }
+
 
 @media (max-width: 768px) {
 
-    .welcome-container {
-        padding: 25px;
-    }
+  .welcome-container {
+    padding: 24px;
 
-    .welcome-left h1 {
-        font-size: 28px;
-    }
+    border-radius: 12px;
+  }
 
-    .summary-row {
-        flex-direction: column;
-    }
+  .welcome-left h1 {
+    font-size: 28px;
+  }
 
-    .summary-box {
-        width: 100%;
+  .summary-row {
+    grid-template-columns: 1fr 1fr;
+  }
 
-        box-sizing: border-box;
-    }
+  .today-info {
+    flex-direction: column;
 
-    .today-info {
-        flex-direction: column;
+    align-items: flex-start;
 
-        gap: 12px;
-    }
+    gap: 12px;
+  }
+
+  .quick-actions {
+    grid-template-columns: 1fr;
+  }
+
+}
+
+
+@media (max-width: 480px) {
+
+  .welcome-container {
+    padding: 18px;
+  }
+
+  .welcome-left h1 {
+    font-size: 24px;
+  }
+
+  .welcome-left p {
+    font-size: 14px;
+  }
+
+  .summary-row {
+    grid-template-columns: 1fr;
+  }
+
 }

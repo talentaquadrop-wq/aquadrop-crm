@@ -347,26 +347,37 @@ exports.convertLeadToCustomer = async (req, res) => {
     });
   }
 
-  const session = await mongoose.startSession();
-  session.startTransaction();
+  const { id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({
+      success: false,
+      message: "Invalid Lead ID format.",
+    });
+  }
+
+  let session = null;
+  let useTransaction = false;
 
   try {
-    const { id } = req.params;
+    session = await mongoose.startSession();
+    session.startTransaction();
+    useTransaction = true;
+  } catch (err) {
+    session = null;
+    useTransaction = false;
+  }
 
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-      await session.abortTransaction();
-      session.endSession();
-      return res.status(400).json({
-        success: false,
-        message: "Invalid Lead ID format.",
-      });
-    }
-
-    const lead = await Lead.findById(id).session(session);
+  try {
+    const lead = useTransaction
+      ? await Lead.findById(id).session(session)
+      : await Lead.findById(id);
 
     if (!lead) {
-      await session.abortTransaction();
-      session.endSession();
+      if (useTransaction && session) {
+        await session.abortTransaction();
+        session.endSession();
+      }
       return res.status(404).json({
         success: false,
         message: "Lead not found.",
@@ -374,40 +385,48 @@ exports.convertLeadToCustomer = async (req, res) => {
     }
 
     if (lead.isConverted) {
-      await session.abortTransaction();
-      session.endSession();
+      if (useTransaction && session) {
+        await session.abortTransaction();
+        session.endSession();
+      }
       return res.status(400).json({
         success: false,
         message: "Lead is already converted.",
       });
     }
 
-    const [customer] = await Customer.create(
-      [
-        {
-          name: lead.name,
-          phone: lead.phone,
-          email: lead.email,
-          address: lead.address,
-          city: lead.city,
-          pincode: lead.pincode,
-          status: "Active",
-          createdBy: lead.createdBy || req.user?._id,
-          assignedTo: lead.assignedTo || req.user?._id,
-        },
-      ],
-      { session }
-    );
+    const customerData = {
+      name: lead.name,
+      phone: lead.phone,
+      email: lead.email,
+      address: lead.address,
+      city: lead.city,
+      pincode: lead.pincode,
+      status: "Active",
+      createdBy: lead.createdBy || req.user?._id,
+      assignedTo: lead.assignedTo || req.user?._id,
+    };
+
+    let customer;
+    if (useTransaction && session) {
+      const [created] = await Customer.create([customerData], { session });
+      customer = created;
+    } else {
+      customer = await Customer.create(customerData);
+    }
 
     lead.isConverted = true;
     lead.status = "Won";
     lead.convertedCustomer = customer._id;
     lead.convertedAt = new Date();
 
-    await lead.save({ session });
-
-    await session.commitTransaction();
-    session.endSession();
+    if (useTransaction && session) {
+      await lead.save({ session });
+      await session.commitTransaction();
+      session.endSession();
+    } else {
+      await lead.save();
+    }
 
     res.status(200).json({
       success: true,
@@ -415,8 +434,14 @@ exports.convertLeadToCustomer = async (req, res) => {
       data: customer,
     });
   } catch (error) {
-    await session.abortTransaction();
-    session.endSession();
+    if (useTransaction && session) {
+      try {
+        await session.abortTransaction();
+        session.endSession();
+      } catch (e) {
+        // ignore error on aborting session
+      }
+    }
 
     console.error("Convert Lead Error:", error);
 

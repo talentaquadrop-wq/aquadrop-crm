@@ -1,8 +1,8 @@
 /* =====================================
-   TODAY INSTALLATIONS
+   RECENT ACTIVITIES
 ===================================== */
 
-.today-installations {
+.recent-activities {
   width: 100%;
 }
 
@@ -11,7 +11,7 @@
    HEADER
 ===================================== */
 
-.installations-card-header {
+.activity-header {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
@@ -21,7 +21,7 @@
   border-bottom: 1px solid #eef0f3;
 }
 
-.installations-card-header h3 {
+.activity-header h3 {
   margin: 0;
 
   font-size: 16px;
@@ -30,7 +30,7 @@
   color: #1f2937;
 }
 
-.installations-card-header p {
+.activity-header p {
   margin: 5px 0 0;
 
   font-size: 12px;
@@ -38,42 +38,47 @@
   color: #6b7280;
 }
 
-.installation-count {
-  min-width: 28px;
-  height: 28px;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
+/* =====================================
+   REFRESH BUTTON
+===================================== */
 
-  background: #eff6ff;
+.view-all-btn {
+  border: none;
+
+  background: transparent;
 
   color: #2563eb;
 
-  border-radius: 5px;
-
   font-size: 12px;
-  font-weight: 700;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  padding: 5px 0;
+}
+
+.view-all-btn:hover {
+  text-decoration: underline;
 }
 
 
 /* =====================================
-   INSTALLATION LIST
+   ACTIVITY LIST
 ===================================== */
 
-.installations-list {
+.activity-list {
   width: 100%;
 }
 
 
 /* =====================================
-   ROW
+   ACTIVITY ROW
 ===================================== */
 
-.today-installation-row {
+.activity-row {
   display: flex;
   align-items: center;
-  justify-content: space-between;
 
   gap: 12px;
 
@@ -82,25 +87,16 @@
   border-bottom: 1px solid #eef0f3;
 }
 
-.today-installation-row:last-child {
+.activity-row:last-child {
   border-bottom: none;
 }
 
 
 /* =====================================
-   LEFT SIDE
+   ICON
 ===================================== */
 
-.installation-main {
-  display: flex;
-  align-items: center;
-
-  gap: 11px;
-
-  min-width: 0;
-}
-
-.installation-icon {
+.activity-icon {
   width: 38px;
   height: 38px;
 
@@ -110,33 +106,62 @@
 
   flex-shrink: 0;
 
-  background: #f5f3ff;
-
-  color: #7c3aed;
-
   border-radius: 6px;
 
   font-size: 15px;
 }
 
-.installation-details {
+.activity-icon.lead {
+  background: #eff6ff;
+  color: #2563eb;
+}
+
+.activity-icon.customer {
+  background: #ecfdf5;
+  color: #059669;
+}
+
+.activity-icon.installation {
+  background: #f5f3ff;
+  color: #7c3aed;
+}
+
+.activity-icon.completed {
+  background: #ecfdf5;
+  color: #16a34a;
+}
+
+.activity-icon.service {
+  background: #fff7ed;
+  color: #ea580c;
+}
+
+.activity-icon.default {
+  background: #f1f5f9;
+  color: #64748b;
+}
+
+
+/* =====================================
+   DETAILS
+===================================== */
+
+.activity-details {
+  flex: 1;
+
   min-width: 0;
 }
 
-.installation-details h4 {
+.activity-details h4 {
   margin: 0;
 
   font-size: 13px;
   font-weight: 600;
 
   color: #1f2937;
-
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
-.installation-details p {
+.activity-details p {
   margin: 4px 0 0;
 
   font-size: 11px;
@@ -150,64 +175,30 @@
 
 
 /* =====================================
-   RIGHT SIDE
+   TIME
 ===================================== */
 
-.installation-right {
-  display: flex;
-  flex-direction: column;
-
-  align-items: flex-end;
-
-  gap: 7px;
-
+.activity-time {
   flex-shrink: 0;
-}
-
-.installation-time {
-  display: flex;
-  align-items: center;
-
-  gap: 5px;
 
   font-size: 11px;
 
-  color: #6b7280;
-}
-
-.installation-time svg {
-  font-size: 10px;
+  color: #9ca3af;
 }
 
 
 /* =====================================
-   STATUS
+   EMPTY / LOADING
 ===================================== */
 
-.installation-status {
-  display: inline-flex;
+.activity-empty {
+  padding: 35px 15px;
 
-  align-items: center;
-  justify-content: center;
+  text-align: center;
 
-  padding: 4px 9px;
+  color: #94a3b8;
 
-  border-radius: 4px;
-
-  font-size: 10px;
-  font-weight: 600;
-}
-
-.installation-status.scheduled {
-  background: #eff6ff;
-
-  color: #2563eb;
-}
-
-.installation-status.pending {
-  background: #fff7ed;
-
-  color: #ea580c;
+  font-size: 13px;
 }
 
 
@@ -217,16 +208,12 @@
 
 @media (max-width: 600px) {
 
-  .today-installation-row {
+  .activity-row {
     align-items: flex-start;
   }
 
-  .installation-right {
-    gap: 5px;
-  }
-
-  .installation-details p {
-    max-width: 130px;
+  .activity-time {
+    display: none;
   }
 
 }

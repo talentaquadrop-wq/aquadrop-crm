@@ -47,7 +47,7 @@ export default function Inventory() {
     try {
       setLoading(true);
       const res = await getProducts();
-      setProducts(res.data || []);
+      setProducts(res.data?.data || res.data || []);
     } catch (error) {
       console.error(error);
       toast.error("Failed to load products");

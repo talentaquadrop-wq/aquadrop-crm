@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./Charts.css";
 
 import {
@@ -13,100 +13,143 @@ import {
   YAxis,
 } from "recharts";
 
-const leadsData = [
-  { month: "Jan", leads: 80 },
-  { month: "Feb", leads: 120 },
-  { month: "Mar", leads: 100 },
-  { month: "Apr", leads: 150 },
-  { month: "May", leads: 180 },
-  { month: "Jun", leads: 140 },
-  { month: "Jul", leads: 200 },
-  { month: "Aug", leads: 170 },
-  { month: "Sep", leads: 160 },
-  { month: "Oct", leads: 130 },
-  { month: "Nov", leads: 150 },
-  { month: "Dec", leads: 190 },
-];
-
-const servicesData = [
-  { month: "Jan", services: 50 },
-  { month: "Feb", services: 80 },
-  { month: "Mar", services: 120 },
-  { month: "Apr", services: 90 },
-  { month: "May", services: 100 },
-  { month: "Jun", services: 110 },
-  { month: "Jul", services: 130 },
-  { month: "Aug", services: 170 },
-  { month: "Sep", services: 120 },
-  { month: "Oct", services: 90 },
-  { month: "Nov", services: 110 },
-  { month: "Dec", services: 140 },
-];
+const API_URL =
+  import.meta.env.VITE_API_URL || "";
 
 const Charts = () => {
+  const [leadsData, setLeadsData] = useState([]);
+  const [servicesData, setServicesData] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchChartData();
+  }, []);
+
+  const fetchChartData = async () => {
+    try {
+      setLoading(true);
+
+      const token = localStorage.getItem("token");
+
+      const response = await fetch(
+        `${API_URL}/api/dashboard`
+          .replace(/([^:]\/)\/+/g, "$1"),
+        {
+          headers: {
+            "Content-Type": "application/json",
+            ...(token && {
+              Authorization: `Bearer ${token}`,
+            }),
+          },
+        }
+      );
+
+      const result = await response.json();
+
+      if (result.success) {
+        setLeadsData(
+          result.monthlyLeads || []
+        );
+
+        setServicesData(
+          result.monthlyServices || []
+        );
+      }
+    } catch (error) {
+      console.error("Charts Error:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="charts-grid">
 
-      {/* Monthly Leads */}
+      {/* MONTHLY LEADS */}
 
       <div className="chart-card">
 
         <h3>Monthly Leads</h3>
 
-        <ResponsiveContainer width="100%" height={300}>
+        {loading ? (
+          <div className="chart-empty">
+            Loading chart...
+          </div>
+        ) : leadsData.length === 0 ? (
+          <div className="chart-empty">
+            No leads data available
+          </div>
+        ) : (
 
-          <LineChart data={leadsData}>
+          <ResponsiveContainer width="100%" height={300}>
 
-            <CartesianGrid strokeDasharray="3 3" />
+            <LineChart data={leadsData}>
 
-            <XAxis dataKey="month" />
+              <CartesianGrid strokeDasharray="3 3" />
 
-            <YAxis />
+              <XAxis dataKey="month" />
 
-            <Tooltip />
+              <YAxis />
 
-            <Line
-              type="monotone"
-              dataKey="leads"
-              stroke="#2563EB"
-              strokeWidth={3}
-            />
+              <Tooltip />
 
-          </LineChart>
+              <Line
+                type="monotone"
+                dataKey="leads"
+                stroke="#2563EB"
+                strokeWidth={3}
+              />
 
-        </ResponsiveContainer>
+            </LineChart>
+
+          </ResponsiveContainer>
+
+        )}
 
       </div>
 
-      {/* Monthly Services */}
+
+      {/* MONTHLY SERVICES */}
 
       <div className="chart-card">
 
         <h3>Monthly Services</h3>
 
-        <ResponsiveContainer width="100%" height={300}>
+        {loading ? (
+          <div className="chart-empty">
+            Loading chart...
+          </div>
+        ) : servicesData.length === 0 ? (
+          <div className="chart-empty">
+            No services data available
+          </div>
+        ) : (
 
-          <AreaChart data={servicesData}>
+          <ResponsiveContainer width="100%" height={300}>
 
-            <CartesianGrid strokeDasharray="3 3" />
+            <AreaChart data={servicesData}>
 
-            <XAxis dataKey="month" />
+              <CartesianGrid strokeDasharray="3 3" />
 
-            <YAxis />
+              <XAxis dataKey="month" />
 
-            <Tooltip />
+              <YAxis />
 
-            <Area
-              type="monotone"
-              dataKey="services"
-              stroke="#10B981"
-              fill="#A7F3D0"
-              strokeWidth={3}
-            />
+              <Tooltip />
 
-          </AreaChart>
+              <Area
+                type="monotone"
+                dataKey="services"
+                stroke="#10B981"
+                fill="#A7F3D0"
+                strokeWidth={3}
+              />
 
-        </ResponsiveContainer>
+            </AreaChart>
+
+          </ResponsiveContainer>
+
+        )}
 
       </div>
 
