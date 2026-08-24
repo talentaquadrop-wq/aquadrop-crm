@@ -880,3 +880,18 @@
     padding: 7px 10px;
   }
 }
+
+/* STATUS COLORS - ADD THIS UPDATED SECTION */
+.status.status-new { background:#eff6ff; color:#2563eb; border-color:#bfdbfe; }
+.status.status-contacted { background:#f8fafc; color:#475569; border-color:#cbd5e1; }
+.status.status-interested { background:#f5f3ff; color:#7c3aed; border-color:#ddd6fe; }
+.status.status-follow-up { background:#fff7ed; color:#c2410c; border-color:#fed7aa; }
+.status.status-site-visit-scheduled { background:#ecfeff; color:#0f766e; border-color:#99f6e4; }
+.status.status-site-visit-completed { background:#ecfdf5; color:#047857; border-color:#a7f3d0; }
+.status.status-quotation-sent { background:#eef2ff; color:#4338ca; border-color:#c7d2fe; }
+.status.status-negotiation { background:#fffbeb; color:#b45309; border-color:#fde68a; }
+.status.status-won { background:#dcfce7; color:#15803d; border-color:#86efac; }
+.status.status-lost { background:#fef2f2; color:#dc2626; border-color:#fecaca; }
+
+.status { cursor:pointer; min-width:145px; }
+.status:focus { border-color:var(--ad-blue); box-shadow:0 0 0 3px rgba(37,99,235,.1); }

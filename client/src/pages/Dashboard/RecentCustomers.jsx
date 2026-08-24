@@ -1,96 +1,216 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./RecentCustomers.css";
-
-const customers = [
-  {
-    id: 1,
-    name: "Ravi Kumar",
-    phone: "+91 9876543210",
-    location: "Hyderabad",
-    status: "Active",
-    image: "https://i.pravatar.cc/100?img=12",
-  },
-  {
-    id: 2,
-    name: "Suresh Reddy",
-    phone: "+91 9876501234",
-    location: "Vijayawada",
-    status: "Pending",
-    image: "https://i.pravatar.cc/100?img=15",
-  },
-  {
-    id: 3,
-    name: "Karthik",
-    phone: "+91 9988776655",
-    location: "Guntur",
-    status: "Active",
-    image: "https://i.pravatar.cc/100?img=18",
-  },
-  {
-    id: 4,
-    name: "Mahesh",
-    phone: "+91 9123456789",
-    location: "Warangal",
-    status: "Inactive",
-    image: "https://i.pravatar.cc/100?img=20",
-  },
-];
+import { getCustomers } from "../../services/customerService";
 
 const RecentCustomers = () => {
+  const [customers, setCustomers] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // ==========================================
+  // FETCH RECENT CUSTOMERS
+  // ==========================================
+
+  const fetchRecentCustomers = async () => {
+    try {
+      setLoading(true);
+
+      const response = await getCustomers();
+
+      if (response?.success) {
+        const customerData = response.data || [];
+
+        // Latest customers first
+        const recentCustomers = [...customerData]
+          .sort(
+            (a, b) =>
+              new Date(b.createdAt || 0) -
+              new Date(a.createdAt || 0)
+          )
+          .slice(0, 5);
+
+        setCustomers(recentCustomers);
+      } else {
+        setCustomers([]);
+      }
+    } catch (error) {
+      console.error("❌ Recent Customers Error:", error);
+      setCustomers([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchRecentCustomers();
+  }, []);
+
+  // ==========================================
+  // VIEW ALL
+  // ==========================================
+
+  const handleViewAll = () => {
+    window.location.href = "/customers";
+  };
+
   return (
     <div className="customers-card">
 
+      {/* ==========================================
+          HEADER
+      ========================================== */}
+
       <div className="customers-header">
-        <h3>Recent Customers</h3>
-        <button>View All</button>
+
+        <div className="customers-title">
+          <h3>Recent Customers</h3>
+          <p>Latest customers added to your system</p>
+        </div>
+
+        <button
+          type="button"
+          className="view-all-btn"
+          onClick={handleViewAll}
+        >
+          View All
+        </button>
+
       </div>
 
-      <table>
+      {/* ==========================================
+          LOADING
+      ========================================== */}
 
-        <thead>
-          <tr>
-            <th>Customer</th>
-            <th>Phone</th>
-            <th>Location</th>
-            <th>Status</th>
-          </tr>
-        </thead>
+      {loading ? (
 
-        <tbody>
+        <div className="recent-customers-message">
+          Loading recent customers...
+        </div>
 
-          {customers.map((customer) => (
+      ) : customers.length === 0 ? (
 
-            <tr key={customer.id}>
+        /* ==========================================
+           NO DATA
+        ========================================== */
 
-              <td className="customer-info">
+        <div className="recent-customers-message">
+          No recent customers found
+        </div>
 
-                <img src={customer.image} alt={customer.name} />
+      ) : (
 
-                <span>{customer.name}</span>
+        /* ==========================================
+           CUSTOMER TABLE
+        ========================================== */
 
-              </td>
+        <div className="customers-table-wrapper">
 
-              <td>{customer.phone}</td>
+          <table className="customers-table">
 
-              <td>{customer.location}</td>
+            <thead>
+              <tr>
+                <th>Customer</th>
+                <th>Phone</th>
+                <th>Location</th>
+                <th>Status</th>
+              </tr>
+            </thead>
 
-              <td>
+            <tbody>
 
-                <span
-                  className={`status-badge ${customer.status.toLowerCase()}`}
-                >
-                  {customer.status}
-                </span>
+              {customers.map((customer) => {
 
-              </td>
+                const customerName =
+                  customer.name ||
+                  customer.customerName ||
+                  "Unknown Customer";
 
-            </tr>
+                const phone =
+                  customer.phone ||
+                  customer.mobile ||
+                  customer.contactNumber ||
+                  "-";
 
-          ))}
+                const location =
+                  customer.city ||
+                  customer.location ||
+                  customer.address ||
+                  "-";
 
-        </tbody>
+                const status =
+                  customer.status ||
+                  "Active";
 
-      </table>
+                const image =
+                  customer.image ||
+                  customer.profileImage ||
+                  customer.photo ||
+                  null;
+
+                return (
+                  <tr key={customer._id || customer.id}>
+
+                    {/* CUSTOMER */}
+
+                    <td className="customer-info">
+
+                      {image ? (
+                        <img
+                          src={image}
+                          alt={customerName}
+                          className="customer-image"
+                        />
+                      ) : (
+                        <div className="customer-avatar">
+                          {customerName
+                            .charAt(0)
+                            .toUpperCase()}
+                        </div>
+                      )}
+
+                      <span className="customer-name">
+                        {customerName}
+                      </span>
+
+                    </td>
+
+                    {/* PHONE */}
+
+                    <td>
+                      {phone}
+                    </td>
+
+                    {/* LOCATION */}
+
+                    <td>
+                      {location}
+                    </td>
+
+                    {/* STATUS */}
+
+                    <td>
+
+                      <span
+                        className={`status-badge ${String(
+                          status
+                        )
+                          .toLowerCase()
+                          .replace(/\s+/g, "-")}`}
+                      >
+                        {status}
+                      </span>
+
+                    </td>
+
+                  </tr>
+                );
+              })}
+
+            </tbody>
+
+          </table>
+
+        </div>
+      )}
 
     </div>
   );
