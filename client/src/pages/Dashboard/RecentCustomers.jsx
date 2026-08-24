@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./RecentCustomers.css";
-import { getCustomers } from "../../services/customerService";
+import { getCustomers } from "../../services/CustomerService";
 const RecentCustomers = () => {
   const [customers, setCustomers] = useState([]);
   const [loading, setLoading] = useState(true);
