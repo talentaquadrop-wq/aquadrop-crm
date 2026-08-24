@@ -1,4 +1,3 @@
-const reportRoutes = require("./routes/reportRoutes");
 const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
@@ -16,6 +15,7 @@ const serviceRoutes = require("./routes/serviceRoutes");
 const dashboardRoutes = require("./routes/dashboardRoutes");
 const authRoutes = require("./routes/authRoutes");
 const productRoutes = require("./routes/productRoutes");
+const reportRoutes = require("./routes/reportRoutes");
 const dispatchRoutes = require("./routes/dispatchRoutes");
 const employeeRoutes = require("./routes/employeeRoutes");
 const quotationRoutes = require("./routes/quotationRoutes");
@@ -24,12 +24,6 @@ const callRoutes = require("./routes/callRoutes");
 const ivrWebhookRoutes = require("./routes/ivrWebhookRoutes");
 
 const app = express();
-
-// =========================
-// Connect MongoDB
-// =========================
-
-connectDB();
 
 // =========================
 // Middleware
@@ -42,6 +36,7 @@ app.use(
       "http://localhost:3000",
       "https://aqua-drop-crm-bf8.vercel.app",
       "https://aqua-drop-crm.vercel.app",
+      "https://aqua-drop-crm-7fp2.vercel.app",
     ],
     credentials: true,
   })
@@ -50,11 +45,41 @@ app.use(
 app.use(express.json());
 
 // =========================
-// Home Route
+// Health Check
 // =========================
 
-app.get("/", (req, res) => {
-  res.status(200).send("Aqua Drop Backend API Running...");
+app.get("/", async (req, res) => {
+  try {
+    await connectDB();
+
+    res.status(200).send("Aqua Drop Backend API Running...");
+  } catch (error) {
+    console.error("❌ Health Check DB Error:", error.message);
+
+    res.status(500).json({
+      success: false,
+      message: "Database connection failed",
+    });
+  }
+});
+
+// =========================
+// DATABASE MIDDLEWARE
+// =========================
+
+app.use(async (req, res, next) => {
+  try {
+    await connectDB();
+    next();
+  } catch (error) {
+    console.error("❌ Database Middleware Error:");
+    console.error(error.message);
+
+    return res.status(500).json({
+      success: false,
+      message: "Database connection failed",
+    });
+  }
 });
 
 // =========================
@@ -93,7 +118,7 @@ app.use(
 );
 
 // =========================
-// 404 Route
+// 404 ROUTE
 // =========================
 
 app.use((req, res) => {
@@ -104,18 +129,35 @@ app.use((req, res) => {
 });
 
 // =========================
-// Start Local Server
+// ERROR HANDLER
+// =========================
+
+app.use((err, req, res, next) => {
+  console.error("❌ SERVER ERROR:");
+  console.error(err);
+
+  res.status(500).json({
+    success: false,
+    message: "Internal Server Error",
+  });
+});
+
+// =========================
+// LOCAL SERVER
 // =========================
 
 if (require.main === module) {
   const PORT = process.env.PORT || 5000;
+
   app.listen(PORT, () => {
-    console.log(`🚀 Aqua Drop Backend running on port ${PORT}`);
+    console.log(
+      `🚀 Aqua Drop Backend running on port ${PORT}`
+    );
   });
 }
 
 // =========================
-// Export for Vercel / App
+// VERCEL EXPORT
 // =========================
 
 module.exports = app;
