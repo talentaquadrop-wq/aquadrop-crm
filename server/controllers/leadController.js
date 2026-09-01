@@ -1,6 +1,7 @@
 const Lead = require("../models/Lead");
 const Customer = require("../models/Customer");
 const mongoose = require("mongoose");
+const { createAuditLog } = require("./auditController");
 
 // ==============================
 // Get All Leads (Role-Based)
@@ -188,6 +189,8 @@ exports.createLead = async (req, res) => {
       remarks,
     });
 
+    await createAuditLog({ req, action: "Created", module: "Leads", entityId: lead._id, entityName: lead.name, details: `Lead created with status ${lead.status}` });
+
     res.status(201).json({
       success: true,
       message: "Lead created successfully.",
@@ -227,6 +230,11 @@ exports.updateLead = async (req, res) => {
     }
 
     const updates = { ...req.body };
+
+    if (updates.followUpDate !== undefined) {
+      updates.nextFollowUpDate = updates.followUpDate || null;
+      updates.followUpStatus = updates.followUpDate ? "Pending" : "Completed";
+    }
 
     if (
       req.user?.role !== "Admin" &&
@@ -268,6 +276,8 @@ exports.updateLead = async (req, res) => {
         runValidators: true,
       }
     ).populate("assignedTo", "name role");
+
+    await createAuditLog({ req, action: "Updated", module: "Leads", entityId: updatedLead._id, entityName: updatedLead.name, details: Object.keys(updates).join(", ") });
 
     res.status(200).json({
       success: true,
@@ -450,4 +460,26 @@ exports.convertLeadToCustomer = async (req, res) => {
       message: "Failed to convert lead to customer.",
     });
   }
+};
+
+exports.addFollowUp = async (req, res) => {
+  try {
+    const { id } = req.params;
+    if (!mongoose.Types.ObjectId.isValid(id)) return res.status(400).json({ success: false, message: "Invalid Lead ID" });
+    const lead = await Lead.findById(id);
+    if (!lead) return res.status(404).json({ success: false, message: "Lead not found" });
+    if (!["Admin", "Manager"].includes(req.user.role) && lead.assignedTo.toString() !== req.user._id.toString()) return res.status(403).json({ success: false, message: "Access denied" });
+    const { date, notes, status } = req.body;
+    if (!date) return res.status(400).json({ success: false, message: "Follow-up date is required" });
+    lead.lastFollowUp = new Date();
+    lead.nextFollowUpDate = new Date(date);
+    lead.followUpDate = new Date(date);
+    lead.followUpNotes = notes || lead.followUpNotes || "";
+    lead.followUpStatus = "Pending";
+    if (status) lead.status = status;
+    await lead.save();
+    await createAuditLog({ req, action: "Follow-up Scheduled", module: "Leads", entityId: lead._id, entityName: lead.name, details: `${new Date(date).toLocaleString("en-IN")} — ${notes || "No notes"}` });
+    const populated = await Lead.findById(id).populate("assignedTo", "name role");
+    res.json({ success: true, message: "Follow-up scheduled", data: populated });
+  } catch (error) { res.status(500).json({ success: false, message: error.message }); }
 };

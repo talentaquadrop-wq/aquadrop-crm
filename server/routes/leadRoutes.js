@@ -8,6 +8,7 @@ const {
   updateLead,
   deleteLead,
   convertLeadToCustomer,
+  addFollowUp,
 } = require("../controllers/leadController");
 
 router.get("/", protect, getLeads);
@@ -21,4 +22,5 @@ router.put("/:id", protect, updateLead);
 router.delete("/:id", protect, deleteLead);
 
 router.post("/:id/convert", protect, convertLeadToCustomer);
+router.post("/:id/follow-up", protect, addFollowUp);
 module.exports = router;

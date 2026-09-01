@@ -26,6 +26,7 @@ import Services from "./pages/Services/Services";
 import Reports from "./pages/Reports/Reports";
 import Employees from "./pages/Employees/Employees";
 import Quotations from "./pages/Quotations/Quotations";
+import AuditLogs from "./pages/AuditLogs/AuditLogs";
 
 // ===============================
 // CALLS / IVR PAGE
@@ -154,6 +155,8 @@ function App() {
             path="/reports"
             element={<Reports />}
           />
+
+          <Route path="/audit-logs" element={<AuditLogs />} />
 
         </Route>
 

@@ -1,23 +1,13 @@
 const express = require("express");
-
 const router = express.Router();
-
-const {
-  addCustomer,
-  getCustomers,
-  updateCustomer,
-  deleteCustomer,
-  getCustomerStats,
-} = require("../controllers/customerController");
-
-router.get("/", getCustomers);
-
+const { protect } = require("../middleware/authMiddleware");
+const { addCustomer, getCustomers, updateCustomer, deleteCustomer, getCustomerStats, getCustomer360, addCustomerPayment } = require("../controllers/customerController");
+router.use(protect);
 router.get("/stats", getCustomerStats);
-
+router.get("/:id/360", getCustomer360);
+router.post("/:id/payments", addCustomerPayment);
+router.get("/", getCustomers);
 router.post("/", addCustomer);
-
 router.put("/:id", updateCustomer);
-
 router.delete("/:id", deleteCustomer);
-
 module.exports = router;

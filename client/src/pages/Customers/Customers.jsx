@@ -10,7 +10,9 @@ import {
   updateCustomer,
   deleteCustomer,
   getCustomerStats,
-} from "../../services/CustomerService";
+  getCustomer360,
+  addCustomerPayment,
+} from "../../services/customerService";
 
 import "./Customers.css";
 
@@ -43,6 +45,9 @@ export default function Customers() {
   const [filter, setFilter] = useState("All");
 
   const [formData, setFormData] = useState(emptyCustomer);
+  const [customer360, setCustomer360] = useState(null);
+  const [paymentForm, setPaymentForm] = useState({amount:"",method:"UPI",reference:"",notes:""});
+  const [loading360, setLoading360] = useState(false);
 
   const [stats, setStats] = useState({
     totalCustomers: 0,
@@ -257,10 +262,12 @@ export default function Customers() {
   // VIEW CUSTOMER
   // ===============================
 
-  const handleView = (customer) => {
-    setSelectedCustomer(customer);
-    setShowView(true);
+  const handleView = async (customer) => {
+    setSelectedCustomer(customer); setShowView(true); setCustomer360(null); setLoading360(true);
+    try { const res = await getCustomer360(customer._id || customer.id); if(res?.success) setCustomer360(res.data); } catch(e) { toast.error("Failed to load customer history"); } finally { setLoading360(false); }
   };
+
+  const handlePayment = async (e) => { e.preventDefault(); if(!selectedCustomer) return; try { await addCustomerPayment(selectedCustomer._id || selectedCustomer.id, paymentForm); toast.success("Payment recorded"); const res=await getCustomer360(selectedCustomer._id || selectedCustomer.id); setCustomer360(res.data); setPaymentForm({amount:"",method:"UPI",reference:"",notes:""}); fetchCustomers(); fetchStats(); } catch(e) { toast.error(e?.response?.data?.message || "Payment failed"); } };
 
   // ===============================
   // SAVE / UPDATE
@@ -1002,6 +1009,12 @@ export default function Customers() {
                 </button>
 
               </div>
+
+              {loading360 ? <div className="customer360-loading">Loading customer history...</div> : customer360 && <div className="customer360-panel">
+                <div className="customer360-summary"><div><span>Total Value</span><strong>₹{Number(customer360.paymentSummary.customerAmount||0).toLocaleString("en-IN")}</strong></div><div><span>Paid</span><strong>₹{Number(customer360.paymentSummary.paid||0).toLocaleString("en-IN")}</strong></div><div><span>Balance</span><strong>₹{Number(customer360.paymentSummary.balance||0).toLocaleString("en-IN")}</strong></div></div>
+                <div className="customer360-grid"><div><h4>Lead History</h4>{customer360.leads?.slice(0,5).map(x=><p key={x._id}><b>{x.status}</b> · {new Date(x.createdAt).toLocaleDateString("en-IN")}</p>)}{!customer360.leads?.length&&<p>No leads</p>}</div><div><h4>Quotations</h4>{customer360.quotations?.slice(0,5).map(x=><p key={x._id}><b>{x.quotationNumber}</b> · ₹{Number(x.grandTotal||0).toLocaleString("en-IN")} · {x.status}</p>)}{!customer360.quotations?.length&&<p>No quotations</p>}</div><div><h4>Installations</h4>{customer360.installations?.slice(0,5).map(x=><p key={x._id}>{x.status || "Installation"} · {new Date(x.createdAt).toLocaleDateString("en-IN")}</p>)}{!customer360.installations?.length&&<p>No installations</p>}</div><div><h4>Services</h4>{customer360.services?.slice(0,5).map(x=><p key={x._id}>{x.status || "Service"} · {new Date(x.createdAt).toLocaleDateString("en-IN")}</p>)}{!customer360.services?.length&&<p>No services</p>}</div></div>
+                <div className="customer360-payments"><h4>Record Payment</h4><form onSubmit={handlePayment} className="payment-inline"><input type="number" min="0.01" step="0.01" placeholder="Amount" value={paymentForm.amount} onChange={e=>setPaymentForm({...paymentForm,amount:e.target.value})} required/><select value={paymentForm.method} onChange={e=>setPaymentForm({...paymentForm,method:e.target.value})}><option>UPI</option><option>Cash</option><option>Bank Transfer</option><option>Card</option><option>Cheque</option><option>Other</option></select><input placeholder="Reference" value={paymentForm.reference} onChange={e=>setPaymentForm({...paymentForm,reference:e.target.value})}/><button className="save-btn" type="submit">Add Payment</button></form></div>
+              </div>}
 
               {/* PROFILE */}
 

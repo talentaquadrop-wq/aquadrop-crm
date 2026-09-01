@@ -22,6 +22,7 @@ const quotationRoutes = require("./routes/quotationRoutes");
 const ivrRoutes = require("./routes/ivrRoutes");
 const callRoutes = require("./routes/callRoutes");
 const ivrWebhookRoutes = require("./routes/ivrWebhookRoutes");
+const auditRoutes = require("./routes/auditRoutes");
 
 const app = express();
 
@@ -111,6 +112,7 @@ app.use("/api/quotations", quotationRoutes);
 app.use("/api/ivr", ivrRoutes);
 
 app.use("/api/calls", callRoutes);
+app.use("/api/audit-logs", auditRoutes);
 
 app.use(
   "/api/ivr/webhook",

@@ -28,7 +28,7 @@ const Dashboard = () => {
     totalCustomers: 0,
     totalInstallations: 0,
     pendingServices: 0,
-    completedServices: 0,
+    completedServices: 0, followUpsToday: 0, overdueFollowUps: 0, wonDeals: 0, monthlyRevenue: 0, pipeline: [],
   });
 
   const [loading, setLoading] = useState(true);
@@ -54,7 +54,7 @@ const Dashboard = () => {
           totalCustomers: data.totalCustomers ?? 0,
           totalInstallations: data.totalInstallations ?? 0,
           pendingServices: data.pendingServices ?? 0,
-          completedServices: data.completedServices ?? 0,
+          completedServices: data.completedServices ?? 0, followUpsToday: data.followUpsToday ?? 0, overdueFollowUps: data.overdueFollowUps ?? 0, wonDeals: data.wonDeals ?? 0, monthlyRevenue: data.monthlyRevenue ?? 0, pipeline: data.pipeline ?? [],
         });
       }
     } catch (error) {
@@ -129,12 +129,23 @@ const Dashboard = () => {
 
         <StatCard
           title="Revenue"
-          value="₹0"
+          value={loading ? "..." : `₹${Number(stats.monthlyRevenue).toLocaleString("en-IN")}`}
           growth="Live"
           icon={<FaRupeeSign />}
           color="#DC2626"
         />
 
+      </section>
+
+      <section className="stats-grid professional-kpis">
+        <StatCard title="Follow-ups Today" value={loading ? "..." : stats.followUpsToday} growth="Action" icon={<FaClock />} color="#2563EB" />
+        <StatCard title="Overdue Follow-ups" value={loading ? "..." : stats.overdueFollowUps} growth="Needs Attention" icon={<FaClock />} color="#DC2626" />
+        <StatCard title="Won Deals" value={loading ? "..." : stats.wonDeals} growth="Live" icon={<FaCheckCircle />} color="#16A34A" />
+      </section>
+
+      <section className="dashboard-section">
+        <div className="section-heading"><div><h2>Sales Pipeline</h2><p>Current lead distribution and opportunity value</p></div></div>
+        <div className="dashboard-pipeline">{stats.pipeline.map(stage => <div className="dashboard-pipeline-item" key={stage._id}><div><strong>{stage._id}</strong><span>{stage.count} leads</span></div><b>₹{Number(stage.value||0).toLocaleString("en-IN")}</b></div>)}</div>
       </section>
 
       {/* BUSINESS OVERVIEW */}

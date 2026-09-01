@@ -39,3 +39,5 @@ export const getCustomerStats = async () => {
   const response = await api.get("/customers/stats");
   return response.data;
 };
+export const getCustomer360 = async (id) => (await api.get(`/customers/${id}/360`)).data;
+export const addCustomerPayment = async (id, data) => (await api.post(`/customers/${id}/payments`, data)).data;

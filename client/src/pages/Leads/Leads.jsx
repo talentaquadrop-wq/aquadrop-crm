@@ -16,6 +16,7 @@ import {
   updateLead,
   deleteLead,
   convertLead,
+  addFollowUp,
 } from "../../services/leadService";
 
 import { getExecutives } from "../../services/employeeService";
@@ -80,6 +81,9 @@ export default function Leads() {
   const [activeStatus, setActiveStatus] = useState("All");
 
   const [formData, setFormData] = useState(emptyLead);
+  const [viewMode, setViewMode] = useState("list");
+  const [followUpLead, setFollowUpLead] = useState(null);
+  const [followUpData, setFollowUpData] = useState({ date: "", notes: "" });
 
   const getLeadId = (lead) => lead?._id || lead?.id;
 
@@ -555,6 +559,12 @@ Aqua Drop CRM`;
     );
   };
 
+  const pipelineStatuses = ["New","Contacted","Interested","Follow Up","Site Visit Scheduled","Site Visit Completed","Quotation Sent","Negotiation","Won","Lost"];
+  const isOverdue = (lead) => (lead.nextFollowUpDate || lead.followUpDate) && new Date(lead.nextFollowUpDate || lead.followUpDate) < new Date() && lead.followUpStatus !== "Completed";
+  const openQuickFollowUp = (lead) => { setFollowUpLead(lead); setFollowUpData({ date: (lead.nextFollowUpDate || lead.followUpDate) ? new Date(lead.nextFollowUpDate || lead.followUpDate).toISOString().slice(0,16) : "", notes: lead.followUpNotes || "" }); };
+  const saveQuickFollowUp = async (e) => { e.preventDefault(); if (!followUpLead || !followUpData.date) return; try { await addFollowUp(getLeadId(followUpLead), followUpData); toast.success("Follow-up scheduled"); setFollowUpLead(null); await fetchLeads(); } catch (error) { toast.error(error?.response?.data?.message || "Failed to schedule follow-up"); } };
+  const moveLead = async (lead, status) => { if (lead.status === status) return; try { await updateLead(getLeadId(lead), { status }); toast.success(`Moved to ${status}`); await fetchLeads(); } catch(error) { toast.error("Could not update stage"); } };
+
   // ==============================
   // LOADING
   // ==============================
@@ -705,6 +715,11 @@ Aqua Drop CRM`;
 
       </div>
 
+      <div className="lead-view-toggle">
+        <button className={viewMode === "list" ? "active" : ""} onClick={() => setViewMode("list")}>☷ List</button>
+        <button className={viewMode === "pipeline" ? "active" : ""} onClick={() => setViewMode("pipeline")}>▦ Pipeline</button>
+      </div>
+
       {/* STATUS FILTERS */}
 
       <div className="status-filters">
@@ -742,6 +757,27 @@ Aqua Drop CRM`;
         ))}
 
       </div>
+
+      {viewMode === "pipeline" && (
+        <div className="lead-pipeline">
+          {pipelineStatuses.map((status) => {
+            const stageLeads = filteredLeads.filter(l => l.status === status);
+            return <div className="pipeline-column" key={status} onDragOver={(e)=>e.preventDefault()} onDrop={(e)=>{const id=e.dataTransfer.getData("leadId"); const lead=leads.find(x=>getLeadId(x)===id); if(lead) moveLead(lead,status);}}>
+              <div className="pipeline-column-header"><strong>{status}</strong><span>{stageLeads.length}</span></div>
+              <div className="pipeline-cards">
+                {stageLeads.map(lead => <div className="pipeline-card" key={getLeadId(lead)} draggable onDragStart={(e)=>e.dataTransfer.setData("leadId", getLeadId(lead))}>
+                  <div className="pipeline-card-top"><strong>{lead.name}</strong><span className={`priority-dot ${String(lead.priority||"").toLowerCase()}`}>{lead.priority || "Medium"}</span></div>
+                  <div className="pipeline-phone">{lead.phone || "-"}</div>
+                  <div className="pipeline-meta">{lead.city || "No city"} · {lead.assignedTo?.name || "Unassigned"}</div>
+                  {(lead.nextFollowUpDate || lead.followUpDate) && <div className={isOverdue(lead) ? "pipeline-follow overdue" : "pipeline-follow"}>📅 {formatDate(lead.nextFollowUpDate || lead.followUpDate)} {isOverdue(lead) ? "· Overdue" : ""}</div>}
+                  <div className="pipeline-actions"><button onClick={()=>setSelectedLead(lead)}>View</button><button onClick={()=>openQuickFollowUp(lead)}>Follow-up</button></div>
+                </div>)}
+                {stageLeads.length === 0 && <div className="pipeline-empty">Drop leads here</div>}
+              </div>
+            </div>;
+          })}
+        </div>
+      )}
 
       {/* ADD / EDIT FORM */}
 
@@ -1127,7 +1163,7 @@ Aqua Drop CRM`;
 
       {/* LEADS TABLE */}
 
-      <div className="table-card">
+      {viewMode === "list" && <div className="table-card">
 
         <table className="lead-table">
 
@@ -1329,7 +1365,10 @@ Aqua Drop CRM`;
 
         </table>
 
-      </div>
+      </div>}
+
+      {/* QUICK FOLLOW-UP */}
+      {followUpLead && <div className="popup-overlay"><div className="quick-followup-card"><h2>Schedule Follow-up</h2><p><strong>{followUpLead.name}</strong> · {followUpLead.phone}</p><form onSubmit={saveQuickFollowUp}><label>Date & Time<input type="datetime-local" value={followUpData.date} onChange={e=>setFollowUpData({...followUpData,date:e.target.value})} required /></label><label>Notes<textarea value={followUpData.notes} onChange={e=>setFollowUpData({...followUpData,notes:e.target.value})} placeholder="What should happen next?" /></label><div className="popup-actions"><button className="save-btn" type="submit">Save Follow-up</button><button className="cancel-btn" type="button" onClick={()=>setFollowUpLead(null)}>Cancel</button></div></form></div></div>}
 
       {/* VIEW LEAD POPUP */}
 

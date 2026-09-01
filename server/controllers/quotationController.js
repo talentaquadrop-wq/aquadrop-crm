@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Quotation = require("../models/Quotation");
+const { createAuditLog } = require("./auditController");
 
 // =====================================================
 // Generate Quotation Number
@@ -276,6 +277,8 @@ const createQuotation = async (req, res) => {
       "Quotation created:",
       quotation.quotationNumber
     );
+
+    await createAuditLog({ req, action: "Created", module: "Quotations", entityId: quotation._id, entityName: quotation.quotationNumber, details: `Quotation created for ${quotation.customerName} · ₹${quotation.grandTotal}` });
 
     return res.status(201).json({
       success: true,
@@ -577,6 +580,8 @@ const updateQuotation = async (req, res) => {
 
     await quotation.save();
 
+    await createAuditLog({ req, action: "Updated", module: "Quotations", entityId: quotation._id, entityName: quotation.quotationNumber, details: `Quotation updated · ₹${quotation.grandTotal}` });
+
     return res.status(200).json({
       success: true,
       message: "Quotation updated successfully",
@@ -614,6 +619,8 @@ const deleteQuotation = async (req, res) => {
         message: "Quotation not found",
       });
     }
+
+    await createAuditLog({ req, action: "Deleted", module: "Quotations", entityId: quotation._id, entityName: quotation.quotationNumber, details: "Quotation deleted" });
 
     return res.status(200).json({
       success: true,

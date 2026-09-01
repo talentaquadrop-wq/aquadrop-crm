@@ -98,7 +98,7 @@ const leadSchema = new mongoose.Schema(
       enum: [
         "New",
         "Contacted",
-        "Follow-up",
+        "Follow Up",
         "Interested",
         "Site Visit Scheduled",
         "Site Visit Completed",

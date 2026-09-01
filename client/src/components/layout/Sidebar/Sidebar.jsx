@@ -15,6 +15,7 @@ import {
   FaCog,
   FaSignOutAlt,
   FaTint,
+  FaHistory,
 } from "react-icons/fa";
 
 import "./Sidebar.css";
@@ -142,7 +143,7 @@ const Sidebar = () => {
           <span className="menu-title">INVENTORY</span>
 
           <NavLink
-            to="/products"
+            to="/inventory"
             className="menu-item"
           >
             <FaBoxOpen className="menu-icon" />
@@ -180,6 +181,8 @@ const Sidebar = () => {
             <FaChartBar className="menu-icon" />
             <span>Reports</span>
           </NavLink>
+
+          {(user?.role === "Admin" || user?.role === "Manager") && <NavLink to="/audit-logs" className="menu-item"><FaHistory className="menu-icon" /><span>Audit Logs</span></NavLink>}
 
         </div>
 
