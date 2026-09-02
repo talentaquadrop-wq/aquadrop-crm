@@ -3,7 +3,6 @@ const mongoose = require("mongoose");
 let isConnected = false;
 
 const connectDB = async () => {
-  // Already connected
   if (isConnected && mongoose.connection.readyState === 1) {
     return;
   }
@@ -21,15 +20,11 @@ const connectDB = async () => {
 
     isConnected = true;
 
-    console.log("✅ MongoDB Connected");
+    console.log("MongoDB Connected Successfully");
   } catch (error) {
     isConnected = false;
 
-    console.error("❌ MongoDB Connection Error:");
-    console.error(error.message);
-
-    // IMPORTANT:
-    // Do NOT use process.exit(1) on Vercel
+    console.error("MongoDB Connection Error:", error.message);
     throw error;
   }
 };
