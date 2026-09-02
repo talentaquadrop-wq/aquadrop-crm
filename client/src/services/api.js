@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "https://aqua-drop-crm-7fp2.vercel.app/api",
+  baseURL: "https://aquadrop-crm-backend.vercel.app/api",
 });
 
 api.interceptors.request.use(
